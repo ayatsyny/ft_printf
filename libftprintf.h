@@ -32,8 +32,8 @@ typedef struct	s_fmt
 	char		flag_second;
 	unsigned	width;
 	unsigned	precision;
-	char		modifier;
-	char		specifier;
+	unsigned char	modifier;
+	unsigned char	specifier;
 	unsigned	res;
 }				t_fmt;
 
@@ -47,9 +47,13 @@ int		end_format(char	*format);
 unsigned     find_num(char *format);
 int	in_str(char	*dst, char *str);
 
-void    *compile_specifier_and_modifier(va_list ap, t_fmt *fmt);
+void    *compile_specifier_and_modifier(va_list ap, t_fmt fmt);
 
+/*
+ ** write fnctions
+ */
+void    write_decimal(void  *value, t_fmt fmt);
 
-// typedef	void	(*t_func)();
+//typedef	void	(*t_func)();
 
 # endif

@@ -51,25 +51,36 @@ int	in_str(char	*dst, char *str)
 //	return (-1);
 //}
 
-/*
-   t_func	ft_switch(char	conversion)
-   {
-   static t_func	funcs[6];
-   int				funcs_index;
-	funcs[1] = &;
-   funcs[2] = &;
-   funcs[3] = &;
-   funcs[4] = &;
-   funcs[5] = &;
-   funcs[6] = NULL;
-   if (conversion == 'p')
-   return (funcs[1]);
-   else if (in_str(conversion, "diou"))
-   return (funcs[2]);
-   else if (in_str(conversion, "ox"))
-   return (funcs[])
-   }
-*/
+//
+//t_func	ft_switch(char	conversion, void  *value)
+//{
+//    static t_func	funcs[6];
+//    int				funcs_index;
+//
+//    funcs[1] = &;
+//    funcs[2] = &;
+//    funcs[3] = &;
+//    funcs[4] = &;
+//    funcs[5] = &;
+//    funcs[6] = &;
+//    if (conversion == 'p')
+//        return (funcs[1]);
+//    else if (ft_strchr("diuUD", conversion))
+//        return (funcs[2]);
+//    else if (ft_strchr("oxOX", conversion))
+//        return (funcs[3]);
+//}
+
+void ft_switch(t_fmt fmt, void * value)
+{
+    if (fmt.specifier == 'p')
+        return ;
+    else if (ft_strchr("diuUD", fmt.specifier))
+        write_decimal(value, fmt);
+    else if (ft_strchr("oxOX", fmt.specifier))
+        return ;
+}
+
 //
 //int	find_num(char *format)
 //{
@@ -171,10 +182,10 @@ int		end_format(char	*format)
                 continue ;
             }
             if (end_letter[j] == format[i] || CONVERSION[k] == format[i])
-            {
-                printf("end lettert %c index %u\n", format[i], i);
+//            {
+//                printf("end lettert %c index %u\n", format[i], i);
                 return (i);
-            }
+//            }
         }
 //		while(end_letter[j] && end_letter[j] != format[i])
 //			j++;
@@ -334,6 +345,25 @@ char	*find_st_format(char *format, unsigned int read)
 }
 */
 
+// todo you need change libft fot ft_strsub
+char	*test_strsub(char	const *s, unsigned int start, size_t len)
+{
+    char	*fresh;
+    size_t	i;
+
+    i = 0;
+    if (!s || start > (unsigned)len || (size_t)start > ft_strlen(s)
+        || (int)start <= -1)
+        return (NULL);
+    fresh = (char *)malloc(len + 1);
+    if (!fresh)
+        return (NULL);
+    s += start;
+    while (s && i < len)
+        fresh[i++] = *(char *)s++;
+    fresh[i] = '\0';
+    return (fresh);
+}
 
 // important use to ft_strsub -- strndup
 // new version 1.2
@@ -342,22 +372,31 @@ char	*find_st_format(char **format, unsigned int *read)
 	char	*p_format;
 	char	*begin_format;
 	int		end_fmt;
+    char    *test; // test
 
 	p_format = *format;
-	while ((begin_format = strchr(*format, '%')) && *(begin_format + 1) == '%')
-		*format = begin_format + 1;
+	while ((begin_format = ft_strchr(*format, '%')))
+    {
+        if (*(begin_format + 1) == '%')
+            continue;
+        *format = begin_format + 1;
+        if (*begin_format)
+            break ;
+    }
 	if (!begin_format || *(begin_format + 1) == '%')
 	{
         write(1, p_format, (*read += strlen(*format)));
         return (NULL);                                      //
 	}
 	else
-		end_fmt = end_format(begin_format + 1);             //  miss sign '%'
+        end_fmt = end_format(begin_format + 1);             //  miss sign '%'
     write(1, p_format, (*read += strlen(p_format) - strlen(begin_format)));
 	if (end_fmt != -1)
     {
             *format = *format + strlen(begin_format);
-        return (strndup(begin_format, (size_t)end_format));
+        test = test_strsub(begin_format + 1, 0, (size_t)end_fmt);
+        return (test);
+//        return (ft_strsub(begin_format, 0, (size_t)end_format));
     }
 	return (strndup(begin_format, strlen(begin_format)));
 }
@@ -448,13 +487,13 @@ int		ft_printf(const char *format, ...)
         clear(&fmt);
         if (!(p_format = find_st_format(&f_format, &read)))
             continue ;
-        printf("test [%s]\n", f_format);
+//        printf("test [%s]\n", f_format);
 		fmt.specifier = p_format[strlen(p_format) - 1];
 		find_flags(p_format,  &fmt);
 		fmt.width = find_num(p_format);
 //		fmt.precision = find_num(strchr(p_format, '.') + 1);
 		fmt.modifier = find_conversion(p_format);
-        compile_specifier_and_modifier(argv, fmt);
+        ft_switch(fmt, compile_specifier_and_modifier(argv, fmt));
 
 	}
 	va_end(argv);

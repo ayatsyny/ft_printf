@@ -7,6 +7,9 @@ set(CMAKE_C_FLAGS "-std=c99")
 set(SOURCE_FILES
         #test_va.c
         ft_printf.c
+        test.c
+        write_console.c
+        specifier_and_modifier.c
         #libft/libft.a
         libftprintf.h)
         ##libft/libft.h)
