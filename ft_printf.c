@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libftprintf.h"
-#include "libft/libft.h"
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -151,7 +150,7 @@ int		end_format(char	*format)
     size_t len = strlen(CONVERSION);        // maybe change somethings for default
 	char end_letter[] = "bkmtwyBKMTWY{|}~[]()@?>=</&!";
 
-    size_t len_end_letter = strlen(end_letter);
+//    size_t len_end_letter = strlen(end_letter);
 	// char skip[] = "qv_,:;";
 	// n - bus error (flag in pdfs-bonus)
 	// q - deprecated (you dont use this flag pds not inf about create functionals)
@@ -439,7 +438,7 @@ int		ft_printf(const char *format, ...)
 	char	*p_format;
     char    *f_format;
 
-	// read = 0;
+	// read = 0;vim Make
 	p_format = (char *)format;
     f_format = strdup(format);
 	va_start(argv, format);
@@ -461,13 +460,7 @@ int		ft_printf(const char *format, ...)
 	return (read);
 }
 
-//void func_test(const char *format)
-//{
-//    format += 2;
-//    printf("\n\n test const char %c\n", *format);
-//}
-
-
+/*
 int main(void)
 {
 //	int y;
@@ -550,3 +543,4 @@ int main(void)
 	// printf("ldfldkfh \n");
 	return (0);
 }
+*/

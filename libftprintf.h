@@ -18,7 +18,6 @@
 #define FALSE 0
 #define TRUE 1
 #include <stdarg.h>
-
 #include "libft/libft.h"
 
 enum		e_bool
@@ -37,6 +36,17 @@ typedef struct	s_fmt
 	char		letter;
 	unsigned	res;
 }				t_fmt;
+
+int		ft_printf(const char *format, ...);
+t_fmt	clear(t_fmt *data);
+char	*find_st_format(char **format, unsigned int *read);
+int		find_conversion(char *format);
+void	find_flags(char *format, t_fmt *data);
+int		find_zero(char *format);
+int		end_format(char	*format);
+unsigned     find_num(char *format);
+int	in_str(char	*dst, char *str);
+
 
 // typedef	void	(*t_func)();
 

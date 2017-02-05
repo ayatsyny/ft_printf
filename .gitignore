@@ -6,7 +6,7 @@ cmake-build-debug/
 libft/
 
  # Vim buffer file
- *.scp
+ *.swp
 
 # Object files
 *.o
