@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
 #include <stdio.h>
 
 /*
@@ -47,6 +46,7 @@ void	foo(char *fmt, ...)
 int main(void)
 {
 	printf("TEst base printf \n");
+
 	printf("[%0d]\n", 1234);
 	printf("[%d]\n", 1234);
 	printf("[%-6d]\n", 1234);

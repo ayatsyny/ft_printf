@@ -45,7 +45,7 @@ int main(void)
 {
 		//var("%d", "548");
 		int a = 10;
-		printf("%d\n", -023);
+		printf("%.2d\n", -023145);
 
 		printf("%o\n", -023);
 		printf("%x\n", -023);

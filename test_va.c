@@ -44,7 +44,11 @@ int main(void)
 {
 		//var("%d", "548");
 		int a = 10;
-		printf("%d\n", -023);
+
+        printf("%12d\n", 45);
+        printf("%12d\n", -45);
+		printf("%5.15d\n", 11232);
+        printf("%6.6d\n", -11232);
 
 		printf("%o\n", -023);
 		printf("%x\n", -023);
@@ -94,5 +98,5 @@ int main(void)
 		printf("[% 12d] [%d]\n", 255, 126);
 		printf("[%-12d] [%d]\n", 255, 126);
 		printf("%%\n");
-				return 0;
+        return 0;
 }

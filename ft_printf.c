@@ -261,7 +261,7 @@ void	find_flags(char *format, t_fmt *data)
 //}
 
 // version 1.2
-int		find_conversion(char *format)
+char		find_conversion(char *format)
 {
     static char *conversion[] = {"hh", "h", "l", "ll", "j", "z"};
     int i;
@@ -271,11 +271,11 @@ int		find_conversion(char *format)
         if (strstr(format, conversion[i]))
         {
             if (i == 0 || i == 3)
-                return (conversion[i][0] * 2);
+                return ((unsigned char)(conversion[i][0] << 1));
             else
                 return (conversion[i][0]);
         }
-    return (-1);
+    return (0);
 }
 
 
@@ -424,7 +424,7 @@ t_fmt	clear(t_fmt *data)
 	data->width = 0;
 	data->precision = 0;
 	data->modifier = 0;
-	data->letter = 0;
+	data->specifier = 0;
 	data->res = 0;
 	return (*data);
 }
@@ -449,12 +449,13 @@ int		ft_printf(const char *format, ...)
         if (!(p_format = find_st_format(&f_format, &read)))
             continue ;
         printf("test [%s]\n", f_format);
-		fmt.letter = p_format[strlen(p_format) - 1];
+		fmt.specifier = p_format[strlen(p_format) - 1];
 		find_flags(p_format,  &fmt);
 		fmt.width = find_num(p_format);
 //		fmt.precision = find_num(strchr(p_format, '.') + 1);
 		fmt.modifier = find_conversion(p_format);
-		continue ;
+        compile_specifier_and_modifier(argv, fmt);
+
 	}
 	va_end(argv);
 	return (read);
