@@ -79,6 +79,11 @@ void ft_switch(t_fmt fmt, void * value)
         write_decimal(value, fmt);
     else if (ft_strchr("oxOX", fmt.specifier))
         return ;
+    else if (ft_strchr("cC", fmt.specifier))
+        return ;
+    else if (ft_strchr("sS", fmt.specifier))
+        return ;
+
 }
 
 //
@@ -226,20 +231,25 @@ int		find_zero(char *format)
 
 void	find_flags(char *format, t_fmt *data)
 {
-		if (strrchr(format, '-'))
-			data->flag_first = '-';
-		//	mas[0] = '-';
-		else if (data->flag_first == 0  && find_zero(format)) //!!!warning don't corect!!!
-			data->flag_first = '0';
+    if (strchr(format, '-'))
+        data->flag_first = '-';
+    else if (find_zero(format))
+        data->flag_first = '0';
+    //	mas[0] = '-';
+//		if (data->flag_first == 0  && find_zero(format)) //!!!warning don't corect!!!
+//			data->flag_first = '0';
 //			mas[0] = '0';
-		//if (str_in(flag_conversion, "oxOX") && strrchr(format, '#'))
-		//	data->flag_second = '#';
-			//mas[1] = '#';
-		if (data->flag_second != '0' && strrchr(format, '+'))
-			data->flag_second = '+';
-		//	mas[1] = '+';
-		else if (data->flag_second != '0' && strrchr(format, ' '))
-			data->flag_second = ' ';
+    //if (str_in(flag_conversion, "oxOX") && strrchr(format, '#'))
+    //	data->flag_second = '#';
+        //mas[1] = '#';
+
+    //	mas[1] = '+';
+    if (strchr(format, '+'))
+        data->flag_second = '+';
+    else if (strchr(format, ' '))
+        data->flag_second = ' ';
+    if (strchr(format, '#') && ft_strchr("oOxX", data->specifier))
+        data->flag_second = '#';
 			// nas[1] = ' ';
 }
 
@@ -461,7 +471,7 @@ t_fmt	clear(t_fmt *data)
 	data->flag_first = 0;
 	data->flag_second = 0;
 	data->width = 0;
-	data->precision = 0;
+	data->precision = -1;
 	data->modifier = 0;
 	data->specifier = 0;
 	data->res = 0;
@@ -488,11 +498,11 @@ int		ft_printf(const char *format, ...)
         if (!(p_format = find_st_format(&f_format, &read)))
             continue ;
 //        printf("test [%s]\n", f_format);
-		fmt.specifier = p_format[strlen(p_format) - 1];
+		fmt.specifier = (unsigned char)p_format[strlen(p_format) - 1];
 		find_flags(p_format,  &fmt);
 		fmt.width = find_num(p_format);
 //		fmt.precision = find_num(strchr(p_format, '.') + 1);
-		fmt.modifier = find_conversion(p_format);
+		fmt.modifier = (unsigned char)find_conversion(p_format);
         ft_switch(fmt, compile_specifier_and_modifier(argv, fmt));
 
 	}

@@ -31,7 +31,7 @@ typedef struct	s_fmt
 	char		flag_first;
 	char		flag_second;
 	unsigned	width;
-	unsigned	precision;
+	int	        precision;
 	unsigned char	modifier;
 	unsigned char	specifier;
 	unsigned	res;
@@ -50,7 +50,7 @@ int	in_str(char	*dst, char *str);
 void    *compile_specifier_and_modifier(va_list ap, t_fmt fmt);
 
 /*
- ** write fnctions
+ ** write functions
  */
 void    write_decimal(void  *value, t_fmt fmt);
 
