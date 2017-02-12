@@ -15,110 +15,17 @@
 #include <string.h>
 #include <ctype.h>
 
-void	error_exit(char	*str)
+void ft_switch(t_fmt *fmt, void *value)
 {
-	ft_putendl(str);		//	debug information
-	write(1, "error\n", 6);
-	exit(1);
-}
-
-int	in_str(char	*dst, char *str)
-{
-	unsigned int i;
-	unsigned int j;
-
-	j = -1;
-	while(dst[++j])
-	{
-		i = 0;
-		while (str[i] && dst[j] != str[i])
-			i++;
-		if (i < strlen(str))
-			return (i);
-	}
-	return (-1);
-}
-
-//int	index(char *str, char letter)
-//{
-//	int i;
-//
-//	i = -1;
-//	while (str[i] && str[i] != letter)
-//		i++;
-//	if (i < strlen(str))
-//		return (i);
-//	return (-1);
-//}
-
-//
-//t_func	ft_switch(char	conversion, void  *value)
-//{
-//    static t_func	funcs[6];
-//    int				funcs_index;
-//
-//    funcs[1] = &;
-//    funcs[2] = &;
-//    funcs[3] = &;
-//    funcs[4] = &;
-//    funcs[5] = &;
-//    funcs[6] = &;
-//    if (conversion == 'p')
-//        return (funcs[1]);
-//    else if (ft_strchr("diuUD", conversion))
-//        return (funcs[2]);
-//    else if (ft_strchr("oxOX", conversion))
-//        return (funcs[3]);
-//}
-
-void ft_switch(t_fmt fmt, void * value)
-{
-    if (fmt.specifier == 'p')
+    if (ft_strchr("diuUDoxOXp", fmt->specifier))
+        write_decimal(value, *fmt);
+    else if (ft_strchr("cC", fmt->specifier))
         return ;
-    else if (ft_strchr("diuUD", fmt.specifier))
-        write_decimal(value, fmt);
-    else if (ft_strchr("oxOX", fmt.specifier))
-        return ;
-    else if (ft_strchr("cC", fmt.specifier))
-        return ;
-    else if (ft_strchr("sS", fmt.specifier))
+    else if (ft_strchr("sS", fmt->specifier))
         return ;
 
 }
 
-//
-//int	find_num(char *format)
-//{
-//	size_t	len;
-//	size_t	f_end;
-//
-//	len = strlen(format);
-//	while (--len > 0)
-//		if (isdigit(format[len]))
-//		{
-//			f_end = len--;
-//			while (isdigit(format[len]))
-//				len--;
-//			if (len <= f_end && format[f_end] != '0')
-//				return (atoi(format + len));
-//		}
-//	return (-1);
-//}
-
-//while (len > 0 && !ft_isdigit(format[len]))
-//len--;
-//f_end = len;
-//while (--len > 0 && ft_isdigit(format[len]))
-//;
-//if (len <= f_end && format[f_end - len] != '0')
-//num = ft_strsub(format, len, f_end);
-//if (num)
-//number = atoi(num);
-//free(num);
-//return ((unsigned)number);
-
-
-// version 1.2
 unsigned     find_num(char *format)
 {
     size_t len;
@@ -127,7 +34,7 @@ unsigned     find_num(char *format)
     int number;
 
     num = NULL;
-    number = -1;
+    number = 0;
     if (!format)
         return (0);
     len = ft_strlen(format) - 1;
@@ -149,23 +56,13 @@ unsigned     find_num(char *format)
     return ((unsigned)number);
 }
 
-//int		find_width(char *format, int *mas)
-//{
-//	size_t len;
-//
-//	len = strlen(format);
-//	while (--len < 0)
-//
-//}
-
-int		end_format(char	*format)
+int		end_format(char	*format, t_fmt *fmt)
 {
 	unsigned int i;
 	unsigned int j;
 	unsigned int k;
-    size_t len = strlen(CONVERSION);        // maybe change somethings for default
-	char end_letter[] = "bkmtwyBKMTWY{|}~[]()@?>=</&!";
-
+    size_t len = ft_strlen(CONVERSION);        // maybe change somethings for default
+	unsigned char end_letter[] = "bkmtwyBKMTWY{|}~[]()@?>=</&!";
 //    size_t len_end_letter = strlen(end_letter);
 	// char skip[] = "qv_,:;";
 	// n - bus error (flag in pdfs-bonus)
@@ -186,11 +83,16 @@ int		end_format(char	*format)
                 k = -1;
                 continue ;
             }
-            if (end_letter[j] == format[i] || CONVERSION[k] == format[i])
-//            {
-//                printf("end lettert %c index %u\n", format[i], i);
-                return (i);
-//            }
+            if (CONVERSION[k] == format[i])
+            {
+                fmt->specifier = (unsigned char) CONVERSION[k];
+                return (i + 1);
+            }
+            if (end_letter[j] == format[i])
+            {
+                fmt->specifier = end_letter[j];
+                return (-1);
+            }
         }
 //		while(end_letter[j] && end_letter[j] != format[i])
 //			j++;
@@ -248,38 +150,10 @@ void	find_flags(char *format, t_fmt *data)
         data->flag_second = '+';
     else if (strchr(format, ' '))
         data->flag_second = ' ';
-    if (strchr(format, '#') && ft_strchr("oOxX", data->specifier))
+    if (strchr(format, '#') != 0 && ft_strchr("oOxX", data->specifier) != 0)
         data->flag_second = '#';
 			// nas[1] = ' ';
 }
-
-
-//int		find_conversion(char *format)
-//{
-//	static int count[6] = {2, 1, 1, 2, 1, 1};
-//	char str[3];
-//	size_t len = strlen(MODIFIER) + 2; // becouse we have hh, ll
-//	int	i;
-//	int j;
-//
-//	i = -1;
-//	j = 0;
-//    str[2] = '\0';
-//	while (++i < len)
-//	{
-//		str[0] = MODIFIER[j];
-//		str[1] = '\0';
-//		if (count[i] > 1)
-//			str[1] = MODIFIER[j];
-//        printf("test format [%s]\n", format);
-//        printf("test str [%s]\n", str);
-//		if (!strstr(format, str))
-//			j++;
-//		else
-//			return (MODIFIER[j] * 2);
-//	}
-//	return (-1);
-//}
 
 // version 1.2
 char		find_conversion(char *format)
@@ -300,60 +174,7 @@ char		find_conversion(char *format)
 }
 
 
-//void	validatiion(int *array, char *str)
-//{
-//	array[0] = in_str(FLAGS, str);
-//	if (array[0] != -1)
-//		array[1] = index(FLAGS, '+');
-//	array[2] = // todo create validation for digital number in printf
-//	array[5] = in_str(CONVERSION, str);
-//
-//
-//}
-/*
-char	*find_st_format(char *format, unsigned int read)
-{
-	char *p_format;
-	char *begin_format;
-	unsigned int i;
 
-	p_format = format;
-	while ((begin_format = strchr(format, '%')) && *begin_format && *(begin_format + 1) == '%')
-		format = begin_format;
-	if (!*begin_format)
-		write(1, p_format, (read = sizeof(p_format)));
-	else if (*p_format != *begin_format)
-		write(1, p_format, (read = sizeof(p_format - strlen(begin_format))));
-	if (*begin_format)
-		//format = in_str(CONVERSION, begin_format) +  begin_format; fix for this
-	return (strndup(begin_format, i));
-}
-*/
-
-/*
-// new version 1.1
-char	*find_st_format(char *format, unsigned int read)
-{
-	char *p_format;
-	char *begin_format;
-	char *end_format;
-	unsigned int i;
-
-	p_format = format;
-	while ((begin_format = strchr(format, '%')) && *begin_format && *(begin_format + 1) == '%')
-		format = begin_format;
-	end_format = begin_format;
-	while ((end_format = strchr(format, '%')) && *end_format && *(end_format + 1) == '%')
-		format = end_format;
-	if (!*begin_format)
-		write(1, p_format, (read = sizeof(p_format)));
-	else if (*p_format != *begin_format)
-		write(1, p_format, (read = sizeof(p_format - strlen(begin_format))));
-	if (*end_format)
-		return (strndup(begin_format, sizeof(end_format)));
-	return (strndup(begin_format, sizeof(begin_format)));
-}
-*/
 
 // todo you need change libft fot ft_strsub
 char	*test_strsub(char	const *s, unsigned int start, size_t len)
@@ -375,140 +196,62 @@ char	*test_strsub(char	const *s, unsigned int start, size_t len)
     return (fresh);
 }
 
-// important use to ft_strsub -- strndup
-// new version 1.2
-char	*find_st_format(char **format, unsigned int *read)
+t_fmt *ft_clear(t_fmt *data)
 {
-	char	*p_format;
-	char	*begin_format;
-	int		end_fmt;
-    char    *test; // test
-
-	p_format = *format;
-	while ((begin_format = ft_strchr(*format, '%')))
-    {
-        if (*(begin_format + 1) == '%')
-            continue;
-        *format = begin_format + 1;
-        if (*begin_format)
-            break ;
-    }
-	if (!begin_format || *(begin_format + 1) == '%')
-	{
-        write(1, p_format, (*read += strlen(*format)));
-        return (NULL);                                      //
-	}
-	else
-        end_fmt = end_format(begin_format + 1);             //  miss sign '%'
-    write(1, p_format, (*read += strlen(p_format) - strlen(begin_format)));
-	if (end_fmt != -1)
-    {
-            *format = *format + strlen(begin_format);
-        test = test_strsub(begin_format + 1, 0, (size_t)end_fmt);
-        return (test);
-//        return (ft_strsub(begin_format, 0, (size_t)end_format));
-    }
-	return (strndup(begin_format, strlen(begin_format)));
-}
-
-//char    *find_st_format2(char *format, unsigned int *read)
-//{
-//    char    *p_format;
-//    char    *begin_format;
-//    int     end_fmt;
-//
-//    p_format = format;
-//    while ((begin_format = strchr(format, '%')) && *(begin_format + 1) == '%')
-//        format = begin_format + 1;
-//
-//}
-
-
-
-
-//void validation(int *array, char *str)
-//{
-//	array[0] = in_str(FLAGS, str);
-//	if (array[0] != -1)
-//		array[-1] = index(FLAGS, '+');
-//}
-
-// old version
-/*
-int		ft_printf(const char format, ...)
-{
-	// mas it's inforamtion conversion specifications
-	// mas[0] - flags "#0-+ " || FLAGS
-	// if format == '+' && format == '-' (position not importent) 
-	// mas[1] - save '-'
-	// mas[2] - minimum field width
-	// mas[3] - precision
-	// mas[4] - size modifier "h, l, j, z, hh, ll" || MODIFIER
-	// mas[5] - conversion letter "p, d, i, u, o, x, c, s, D, U, O, X, C, S" || CONVERSION
-	// mas[6] - result read letters in ft_printf
-	int mas[7];
-	int	i;
-	va_list	argv;
-	unsigned int	read;
-	char 	*p_format;
-
-	i = -1;
-	p_format = format;
-	va_start(argv, p_format);
-	while (*p_format)
-	{
-		while (mas[++i] < 6)
-			mas[i] = -1;
-		validatiion(mas, find_st_format(p_format, &read));
-	}
-	va_end(argv);
-	return ;
-}
-*/
-
-t_fmt	clear(t_fmt *data)
-{
-	data->flag_first = 0;
-	data->flag_second = 0;
+	data->flag_first = '=';
+	data->flag_second = '=';
 	data->width = 0;
 	data->precision = -1;
-	data->modifier = 0;
-	data->specifier = 0;
+	data->modifier = '=';
+	data->specifier = '=';
 	data->res = 0;
-	return (*data);
+	return (data);
 }
 
-// new version
-int		ft_printf(const char *format, ...)
+int     ft_printf(const char *format, ...)
 {
-	t_fmt	fmt;
-	va_list	argv;
-	unsigned read;
-	char	*p_format;
-    char    *f_format;
+    t_fmt       *fmt;
+    va_list     argv;
+    unsigned    read;
+    int         i;
 
-	// read = 0;vim Make
-	p_format = (char *)format;
-    f_format = strdup(format);
-	va_start(argv, format);
-	while (f_format && p_format)
-	{
-		read = 0;
-        clear(&fmt);
-        if (!(p_format = find_st_format(&f_format, &read)))
-            continue ;
-//        printf("test [%s]\n", f_format);
-		fmt.specifier = (unsigned char)p_format[strlen(p_format) - 1];
-		find_flags(p_format,  &fmt);
-		fmt.width = find_num(p_format);
-//		fmt.precision = find_num(strchr(p_format, '.') + 1);
-		fmt.modifier = (unsigned char)find_conversion(p_format);
-        ft_switch(fmt, compile_specifier_and_modifier(argv, fmt));
+    read = 0;
+    i = 0;
+    va_start(argv, format);
+    while (*format)
+    {
+        if (*format == '%' && format++)
+        {
+            i = -1;
+            while (++i < ft_strlen(format) && !ft_strchr("0123456789hljz-+0# ", format[i]))
+                ;
+            combination(ft_strncpy(ft_strnew(i - 1), format, i - 1), fmt);
+            ft_strchr(CONVERSION, fmt->specifier) ? ft_switch(fmt, compile_specifier_and_modifier(argv, *fmt))
+                                                  : write(1, &format[i], 1);
+            format += i;
+        }
+    }
+    return (10);
 
-	}
-	va_end(argv);
-	return (read);
 }
+
+
+void combination(char *str, t_fmt *fmt)
+{
+    char *del;
+    int len;
+
+    del = str;
+    len = (int)ft_strlen(str);
+    ft_clear(fmt);
+    fmt->specifier = (char) (ft_strchr(CONVERSION, str[len - 1]) ? str[len - 1] : 127);
+    find_flags(del,  fmt);
+    fmt->width = find_num(del);
+//		fmt.precision = find_num(strchr(p_format, '.') + 1);
+    fmt->modifier = (unsigned char)find_conversion(del);
+    free(del);
+}
+
 
 /*
 int main(void)

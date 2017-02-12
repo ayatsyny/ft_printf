@@ -9,6 +9,7 @@ set(SOURCE_FILES
         ft_printf.c
         test.c
         write_console.c
+        itoa_base.c
         specifier_and_modifier.c
         #libft/libft.a
         libftprintf.h)

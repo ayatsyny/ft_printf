@@ -24,7 +24,7 @@ static void    *convert_specifier(char specifier, va_list ap)
     return (NULL);
 }
 
-static void    *convert_modifier_decimal(char modifier, void *value)
+static void    *convert_modifier_decimal(unsigned char modifier, void *value)
 {
     if (modifier == 'h' << 1)
         return ((signed char *)value);
@@ -41,7 +41,7 @@ static void    *convert_modifier_decimal(char modifier, void *value)
     return (value);
 }
 
-static void    *convert_modifier_others(char modifier, void * value, char specifier)
+static void    *convert_modifier_others(unsigned char modifier, void * value, char specifier)
 {
 //    if (specifier == 'c' && modifier == 'l')
 //        return ((wint_t)value);

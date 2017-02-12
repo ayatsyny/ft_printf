@@ -12,7 +12,10 @@
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC = ft_printf.c
+SRC = ft_printf.c \
+      specifier_and_modifier.c \
+      write_console.c \
+      itoa_base.c
 
 OBJ = $(SRC:.c=.o)
 LIB = libftprintf.a
