@@ -52,8 +52,8 @@ void    write_width_diD(char *num, char *str, t_fmt fmt, int str_len)
     index = num[0] == '-'? 1 : 0;
     if (ft_strchr("-0", fmt.flag_first))
         ft_strcpy(num + index, str + index);
-    else
-        del = ft_strjoin();
+//    else
+//        del = ft_strjoin();
 }
 
 void write_str(void *value, t_fmt fmt)
