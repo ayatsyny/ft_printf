@@ -34,12 +34,13 @@ typedef struct	s_fmt
 	int	        precision;
 	unsigned char	modifier;
 	char	specifier;
+    char    *str;
 	unsigned	res;
 }				t_fmt;
 
 int		ft_printf(const char *format, ...);
 t_fmt	*ft_clear(t_fmt *data);
-void    combination(char *str, t_fmt *fmt);
+void *combination(char *str, t_fmt *fmt, va_list p);
 char	find_conversion(char *format);
 void	find_flags(char *format, t_fmt *data);
 int		find_zero(char *format);
@@ -52,10 +53,10 @@ void    *compile_specifier_and_modifier(va_list ap, t_fmt fmt);
 char    *ft_itoa_base(int value, int base);
 
 /*
- ** write functions
+ ** write functi ons
  */
-void    write_flags(char *str, t_fmt *fmt);
-void    write_decimal(void  *value, t_fmt fmt);
+void    calc_flags(t_fmt fmt);
+void    write_decimal(t_fmt fmt, void *value);
 void    write_default(char *value, t_fmt fmt, size_t len_value);
 // void    write_width_diD(char *str, t_fmt fmt, size_t str_len);
 

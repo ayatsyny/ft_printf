@@ -18,7 +18,7 @@
 void ft_switch(t_fmt *fmt, void *value)
 {
     if (ft_strchr("diuUDoxOXp", fmt->specifier))
-        write_decimal(value, *fmt);
+        write_decimal(*fmt, value);
     else if (ft_strchr("cC", fmt->specifier))
         return ;
     else if (ft_strchr("sS", fmt->specifier))
@@ -150,7 +150,7 @@ void	find_flags(char *format, t_fmt *data)
         data->flag_second = '+';
     else if (strchr(format, ' '))
         data->flag_second = ' ';
-    if (strchr(format, '#') != 0 && ft_strchr("oOxX", data->specifier) != 0)
+    if (ft_strchr(format, '#') && ft_strchr("oOxX", data->specifier))
         data->flag_second = '#';
 			// nas[1] = ' ';
 }
@@ -222,21 +222,20 @@ int     ft_printf(const char *format, ...)
     {
         if (*format == '%' && format++)
         {
-            i = -1;
-            while (++i < ft_strlen(format) && !ft_strchr("0123456789hljz-+0# ", format[i]))
-                ;
-            combination(ft_strncpy(ft_strnew(i - 1), format, i - 1), fmt);
-            ft_strchr(CONVERSION, fmt->specifier) ? ft_switch(fmt, compile_specifier_and_modifier(argv, *fmt))
-                                                  : write(1, &format[i], 1);
-            format += i;
+            i = 0;
+            while (i < ft_strlen(format) && !ft_strchr("0123456789hljz-+0# ", format[i]))
+                i++;
+            ft_switch(fmt, combination(ft_strncpy(ft_strnew(i - 1), format, i - 1), fmt, argv));
+            format += (format[i]) ? i + 1 : i;
         }
+        else
+            ft_putchar(format[i++]);
     }
     return (10);
 
 }
 
-
-void combination(char *str, t_fmt *fmt)
+void *combination(char *str, t_fmt *fmt, va_list p)
 {
     char *del;
     int len;
@@ -250,6 +249,7 @@ void combination(char *str, t_fmt *fmt)
 //		fmt.precision = find_num(strchr(p_format, '.') + 1);
     fmt->modifier = (unsigned char)find_conversion(del);
     free(del);
+    return (fmt->specifier != 127 ? compile_specifier_and_modifier(p, *fmt) : 0);
 }
 
 

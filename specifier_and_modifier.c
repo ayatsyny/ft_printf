@@ -69,9 +69,9 @@ void    *compile_specifier_and_modifier(va_list ap, t_fmt fmt)
     value = NULL;
     if (!(value = convert_specifier(fmt.specifier, ap)))
         return (NULL);
-    if (ft_strchr("di", fmt.specifier))
+    if (ft_strchr("di", fmt.specifier) && fmt.modifier != '=')
         return (convert_modifier_decimal(fmt.modifier, value));
-    if (ft_strchr("uoxXDUOcs", fmt.specifier))
+    else if (ft_strchr("uoxXDUOcs", fmt.specifier) && fmt.modifier != '=')
         return (convert_modifier_others(fmt.modifier, value, fmt.specifier));
     return (value);
 }
