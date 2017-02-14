@@ -3,75 +3,51 @@
 //
 
 #include "libftprintf.h"
-#include <stdint.h>
-#include <locale.h>
-#include <stddef.h>
 
-static void    *convert_specifier(char specifier, va_list ap)
+static intmax_t		convert_di(va_list ap, t_fmt fmt)
 {
-    if (ft_strchr("di", specifier))
-        return (va_arg(ap, int *));
-    if (ft_strchr("uoxX", specifier))
-        return (va_arg(ap, unsigned *));
-    if ('D' == specifier)
-        return (va_arg(ap, long *));
-    if (ft_strchr("UO", specifier))
-        return (va_arg(ap, unsigned long *));
-    if ('c' == specifier)
-        return (va_arg(ap, unsigned char *));
-    if ('s' == specifier)
-        return (va_arg(ap, char *));
-    return (NULL);
+	intmax_t num;
+
+	num = va_arg(ap, intmax_t);
+	if (fmt.modifier == 'h' << 1)
+		num = (signed char)num;
+	else if (fmt.modifier == 'h')
+		num = (short int)num;
+	else if (fmt.modifier == 'l' || fmt.specifier == 'D')
+		num = (long int)num;
+	else if (fmt.modifier == 'l' << 1)
+		num = (long long int)num;
+	else if (fmt.modifier == 'z')
+		num = (size_t)num;
+	else if (fmt.modifier == '=')
+		num = (int)num;
+	return (num);
+}
+static uintmax_t convert_ox(va_list ap, t_fmt fmt)
+{
+	uintmax_t num;
+
+	num = va_arg(ap, uintmax_t);
+	if (fmt.modifier == 'h' << 1)
+		num = (unsigned char)num;
+	else if (fmt.modifier == 'h')
+		num = (unsigned short int)num;
+	else if (fmt.modifier == 'l' || ft_strchr("OU", fmt.specifier))
+		num = (unsigned long int)num;
+	else if (fmt.modifier == 'l' << 1)
+		num = (unsigned long long int)num;
+	else if (fmt.modifier == 'z')
+		num = (size_t)num;
+	else if (fmt.modifier == '=')
+		num = (unsigned int)num;
+	return (num);
 }
 
-static void    *convert_modifier_decimal(unsigned char modifier, void *value)
+void    compile_specifier_and_modifier(va_list ap, t_fmt *fmt)
 {
-    if (modifier == 'h' << 1)
-        return ((signed char *)value);
-    if (modifier == 'h')
-        return ((short *)value);
-    if (modifier == 'l')
-        return ((long *)value);
-    if (modifier == 'l' << 1)
-        return ((long long *)value);
-    if (modifier == 'j')
-        return ((intmax_t *)value);
-    if (modifier == 'z')
-        return ((size_t *)value);
-    return (value);
-}
-
-static void    *convert_modifier_others(unsigned char modifier, void * value, char specifier)
-{
-//    if (specifier == 'c' && modifier == 'l')
-//        return ((wint_t)value);
-    if (specifier == 's' && modifier == 'l')
-        return ((wchar_t *)value);
-    if (modifier == 'h' * 2)
-        return ((unsigned char *)value);
-    if (modifier == 'h')
-        return ((unsigned short *)value);
-    if (modifier == 'l')
-        return ((unsigned long *)value);
-    if (modifier == 'l' * 2)
-        return ((unsigned long long *)value);
-    if (modifier == 'j')
-        return ((uintmax_t *)value);
-    if (modifier == 'z')
-        return ((size_t *)value);
-    return (value);
-}
-
-void    *compile_specifier_and_modifier(va_list ap, t_fmt fmt)
-{
-    void *value;
-
-    value = NULL;
-    if (!(value = convert_specifier(fmt.specifier, ap)))
-        return (NULL);
-    if (ft_strchr("di", fmt.specifier) && fmt.modifier != '=')
-        return (convert_modifier_decimal(fmt.modifier, value));
-    else if (ft_strchr("uoxXDUOcs", fmt.specifier) && fmt.modifier != '=')
-        return (convert_modifier_others(fmt.modifier, value, fmt.specifier));
-    return (value);
+    if (ft_strchr("diD", fmt->specifier))
+        fmt->str = ft_itoa_base(convert_di(ap, *fmt), fmt->specifier);
+	else if(ft_strchr("puoxXUO", fmt->specifier))
+		fmt->str = ft_itoa_base(convert_ox(ap, *fmt), fmt->specifier);
+    //else if (ft_strchr("csCS", fmt.specifier))
 }

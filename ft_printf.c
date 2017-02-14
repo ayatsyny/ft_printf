@@ -10,26 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-#include <stdio.h>
-#include <string.h>
 #include <ctype.h>
+#include "libftprintf.h"
 
-void ft_switch(t_fmt *fmt, void *value)
+unsigned	ft_switch(t_fmt *fmt, unsigned len_writen)
 {
     if (ft_strchr("diuUDoxOXp", fmt->specifier))
-        write_decimal(*fmt, value);
-    else if (ft_strchr("cC", fmt->specifier))
-        return ;
-    else if (ft_strchr("sS", fmt->specifier))
-        return ;
-
+        len_writen += write_decimal(fmt);
+//    else if (ft_strchr("cC", fmt->specifier))
+//        return ;
+//    else if (ft_strchr("sS", fmt->specifier))
+//        return ;
+	return (len_writen);
 }
 
 unsigned     find_num(char *format)
 {
-    size_t len;
-    size_t f_end;
+    int len;
+    int f_end;
     char *num;
     int number;
 
@@ -37,16 +35,16 @@ unsigned     find_num(char *format)
     number = 0;
     if (!format)
         return (0);
-    len = ft_strlen(format) - 1;
+    len = (int)ft_strlen(format) - 1;
     while (--len > 0)
-        if (ft_isdigit(format[len]))
+        if (isdigit(format[len]))
         {
             f_end = len--;
-            while (len > 0 && isdigit(format[len]))
+            while (len > 0 && ft_isdigit(format[len]))
                  len--;
             if (len < f_end && format[f_end - len] != '0')
             {
-                num = ft_strsub(format, (unsigned)(len + 1), f_end - len);
+                num = ft_strsub(format, (unsigned)(len + 1), (size_t)f_end - len);
                 break ;
             }
         }
@@ -116,7 +114,7 @@ int		find_zero(char *format)
 	f = 0;
 	while (format[++i])
 	{
-		res = isdigit(format[i]);
+		res = ft_isdigit(format[i]);
 		if (res != 0)
 		{
 			if (res != '0' && !f)
@@ -130,29 +128,18 @@ int		find_zero(char *format)
 	return (0);
 }
 
-
 void	find_flags(char *format, t_fmt *data)
 {
     if (strchr(format, '-'))
         data->flag_first = '-';
     else if (find_zero(format))
         data->flag_first = '0';
-    //	mas[0] = '-';
-//		if (data->flag_first == 0  && find_zero(format)) //!!!warning don't corect!!!
-//			data->flag_first = '0';
-//			mas[0] = '0';
-    //if (str_in(flag_conversion, "oxOX") && strrchr(format, '#'))
-    //	data->flag_second = '#';
-        //mas[1] = '#';
-
-    //	mas[1] = '+';
     if (strchr(format, '+'))
         data->flag_second = '+';
     else if (strchr(format, ' '))
         data->flag_second = ' ';
     if (ft_strchr(format, '#') && ft_strchr("oOxX", data->specifier))
         data->flag_second = '#';
-			// nas[1] = ' ';
 }
 
 // version 1.2
@@ -204,20 +191,20 @@ t_fmt *ft_clear(t_fmt *data)
 	data->precision = -1;
 	data->modifier = '=';
 	data->specifier = '=';
-	data->res = 0;
+	data->str = NULL;
 	return (data);
 }
 
 int     ft_printf(const char *format, ...)
 {
     t_fmt       *fmt;
-    va_list     argv;
+    va_list     ap;
     unsigned    read;
     int         i;
 
     read = 0;
     i = 0;
-    va_start(argv, format);
+    va_start(ap, format);
     while (*format)
     {
         if (*format == '%' && format++)
@@ -225,7 +212,9 @@ int     ft_printf(const char *format, ...)
             i = 0;
             while (i < ft_strlen(format) && !ft_strchr("0123456789hljz-+0# ", format[i]))
                 i++;
-            ft_switch(fmt, combination(ft_strncpy(ft_strnew(i - 1), format, i - 1), fmt, argv));
+            combination(ft_strncpy(ft_strnew(i - 1), format, i - 1), fmt);
+			compile_specifier_and_modifier(ap, fmt);
+			ft_switch(fmt, read);
             format += (format[i]) ? i + 1 : i;
         }
         else
@@ -235,7 +224,7 @@ int     ft_printf(const char *format, ...)
 
 }
 
-void *combination(char *str, t_fmt *fmt, va_list p)
+void combination(char *str, t_fmt *fmt)
 {
     char *del;
     int len;
@@ -243,97 +232,11 @@ void *combination(char *str, t_fmt *fmt, va_list p)
     del = str;
     len = (int)ft_strlen(str);
     ft_clear(fmt);
-    fmt->specifier = (char) (ft_strchr(CONVERSION, str[len - 1]) ? str[len - 1] : 127);
+    fmt->specifier = ft_strchr(CONVERSION, str[len - 1]) ? str[len - 1] : 127;
     find_flags(del,  fmt);
     fmt->width = find_num(del);
 //		fmt.precision = find_num(strchr(p_format, '.') + 1);
     fmt->modifier = (unsigned char)find_conversion(del);
     free(del);
-    return (fmt->specifier != 127 ? compile_specifier_and_modifier(p, *fmt) : 0);
+//    return (fmt->specifier != 127 ? compile_specifier_and_modifier(p, *fmt) : 0);
 }
-
-
-/*
-int main(void)
-{
-//	int y;
-//	int x = 0;
-//	y = x == 0 ? 1 : 0;
-//	int mas[5];
-//	for(int i = 0; i < 5; i++)
-//		printf("test  [%d]\n", mas[i] = -1);
-
-//	printf("test_origin %d\n", 5);
-//	ft_printf("my_print %d\n", 5);
-//	printf("x= %d, y= %d \n", x, y);
-//	printf("test strchr[%s]\n", strchr("dsfdsf fg  %% dff  dgg \%\%", '%'));
-//	printf("[%s]\n", MODIFIER);
-//	printf("[%s]\n", CONVERSION);
-//	printf("[%d]", printf("dfgdfs  fgfgn  [%d]\n", 55));
-
-    char *s = "wqweq rerw er";
-    char *s_proc = "... % - + 40 51 lh d";
-    char *s_proc_doub = "%%%";
-    char *s_def = "% +-12hhd";
-    char *s_mix = "kjflk oiej % +- 4 6 z d reoroeu % -12s";
-    char *s_def_l = "%+12d%+- 5s";
-    unsigned int read = 0;
-
-//    write(1, "\n", 1);
-////    find_st_format(s, &read);
-//    //printf("test data \n [%s]\n", s);
-//    printf("read [%u] str\n[%s]\n", read, s);
-//    printf("my function: \n");
-//    ft_printf(s);
-
-    read = 0;
-    write(1, "\n", 1);
-    //find_st_format(s_def, &read);
-    //printf("test data \n [%s]\n", s_def);
-    printf("read [%u] str\n[%s]\n", read, s_def);
-    printf("my function: \n");
-    ft_printf(s_def);
-
-//    read = 0;
-//    write(1, "\n", 1);
-//    //find_st_format(s_proc, &read);
-//    //printf("test data \n [%s]\n", s_proc);
-//    printf("read [%u] str\n[%s]\n", read, s_proc);
-//    printf("my function: \n");
-//    ft_printf(s_proc);
-//
-//    read = 0;
-//    write(1, "\n", 1);
-////    find_st_format(s_proc_doub, &read);
-//    //printf("test data \n [%s]\n", s_proc_doub);
-//    printf("read [%u] str\n[%s]\n", read, s_proc_doub);
-//    printf("my function: \n");
-//    ft_printf(s_proc_doub);
-//
-//
-//    read = 0;
-//    write(1, "\n", 1);
-////    find_st_format(s_mix, &read);
-//    //printf("test data \n [%s]\n", s_mix);
-//    printf("read [%u] str\n[%s]\n", read, s_mix);
-//    printf("my function: \n");
-//    ft_printf(s_mix);
-//
-//    read = 0;
-//    write(1, "\n", 1);
-////    find_st_format(s_def_l, &read);
-//    //printf("test data \n [%s]\n", s_def_l);
-//    printf("read [%u] str\n[%s]\n", read, s_def_l);
-//    printf("my function: \n");
-//    ft_printf(s_def_l);
-
-    //char array[] = "string";
-    //const char *сii = array;
-
-    //cii = array;
-    //func_test(cii);
-    //printf("\n\n test const char %c\n", *cii);
-	// printf("ldfldkfh \n");
-	return (0);
-}
-*/
