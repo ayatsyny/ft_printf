@@ -24,7 +24,7 @@ unsigned	ft_switch(t_fmt *fmt, unsigned len_writen)
 	return (len_writen);
 }
 
-unsigned     find_num(char *format)
+unsigned     get_width(char *format)
 {
     int len;
     int f_end;
@@ -160,7 +160,17 @@ char		find_conversion(char *format)
     return (0);
 }
 
+int get_pression(char *format)
+{
+    char *tmp;
+    int num;
 
+    num = 0;
+    if (!(tmp = ft_strrchr(format, '.')) && !(tmp = ft_strchr("123456789", tmp))
+        return (num);
+    num = ft_atoi(tmp);
+    return (num);
+}
 
 
 // todo you need change libft fot ft_strsub
@@ -234,8 +244,8 @@ void combination(char *str, t_fmt *fmt)
     ft_clear(fmt);
     fmt->specifier = ft_strchr(CONVERSION, str[len - 1]) ? str[len - 1] : 127;
     find_flags(del,  fmt);
-    fmt->width = find_num(del);
-//		fmt.precision = find_num(strchr(p_format, '.') + 1);
+    fmt->width = get_width(del);
+    fmt->precision = get_pression(str);
     fmt->modifier = (unsigned char)find_conversion(del);
     free(del);
 //    return (fmt->specifier != 127 ? compile_specifier_and_modifier(p, *fmt) : 0);
