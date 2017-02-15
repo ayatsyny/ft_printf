@@ -36,7 +36,7 @@ void		combination(char *str, t_fmt *fmt);
 char		find_conversion(char *format);
 void		find_flags(char *format, t_fmt *data);
 int			find_zero(char *format);
-unsigned	find_num(char *format);
+unsigned	get_width(char *format);
 void		compile_specifier_and_modifier(va_list ap, t_fmt *fmt);
 unsigned	ft_switch(t_fmt *fmt, unsigned len_writen);
 
@@ -53,5 +53,12 @@ unsigned	write_decimal(t_fmt *fmt);
 void		calc_pression(t_fmt *fmt);
 void    	calc_flags(t_fmt *fmt);
 void		calc_width(t_fmt *fmt);
+
+/*
+** clear data chars in matrix
+*/
+
+void    init_char_points(char *point, unsigned elem);
+void    del_char_data(char  *point, unsigned elem);
 
 # endif
