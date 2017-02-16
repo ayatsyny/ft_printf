@@ -18,9 +18,12 @@ static void clear_flag_in_center_str(t_fmt fmt, unsigned skip_len, size_t copy_l
 
 unsigned	write_decimal(t_fmt *fmt)
 {
-	calc_pression(fmt);
-	calc_flags(fmt);
-	calc_width(fmt);
+	if (fmt->precision)
+		calc_pression(fmt);
+	if (fmt->flag_first != '=' || fmt->flag_second != '=')
+		calc_flags(fmt);
+	if (fmt->width)
+		calc_width(fmt);
     if (fmt->specifier == 'x')
 		ft_strlowcase(fmt->str);
 	ft_putstr(fmt->str);
@@ -52,7 +55,9 @@ void calc_width(t_fmt *fmt)
 	size_t cnt;
 
 	//del = (char *)ft_memalloc(2);
-	init_char_points(*del, 2);
+	//init_char_points(*del, 2);
+	del[0] = NULL;
+	del[1] = NULL;
 	sing = fmt->flag_first == '0' ? fmt->flag_first : ' ';
 	cnt = ft_strchr("oO", fmt->specifier) || ft_strchr("+ ", fmt->specifier)
 			|| fmt->str[0] == '-' ? 1 : 0;
@@ -75,10 +80,12 @@ void	calc_pression(t_fmt *fmt)
 {
 	int sing;
 	int elem;
-	char *del[3];
+	char *del[2];
 
-	//del = ft_memalloc(3);
-	init_char_points(*del, 3);
+//	del = ft_memalloc(3);
+//	init_char_points(*del, ele);
+	del[0] = NULL;
+	del[1] = NULL;
 	sing = fmt->str[0] == '-' ? 1 : 0;
 	elem = fmt->precision + sing - (int)ft_strlen(fmt->str);
     if ((fmt->str[0] == '0' || (sing && fmt->str[1] == '0')) && fmt->precision < 0)
