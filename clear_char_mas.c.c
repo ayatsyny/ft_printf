@@ -19,6 +19,6 @@ void    del_char_data(char  *point, unsigned elem)
 
     i = -1;
     while (++i < elem)
-        free(point[i]);
+        free((void *) point);
     free(point);
 }

@@ -16,7 +16,7 @@
 //# define MODIFIER "hljz" //	!!!! warning priopity very importent
 # define CONVERSION "pdiuoxcsDUOXCS"
 #include <stdarg.h>
-#include <stddef.h>
+#include <stdint.h>
 #include "libft/libft.h"
 
 typedef struct	s_fmt
@@ -38,7 +38,7 @@ void		find_flags(char *format, t_fmt *data);
 int         get_pression(char *format);
 int			find_zero(char *format);
 unsigned	get_width(char *format);
-void		compile_specifier_and_modifier(va_list ap, t_fmt *fmt);
+void		compile_specifier_and_modifier(va_list *ap, t_fmt *fmt);
 unsigned	ft_switch(t_fmt *fmt, unsigned len_writen);
 
 char    *ft_itoa_base(intmax_t value, char base_specifier);

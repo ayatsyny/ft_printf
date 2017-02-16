@@ -11,6 +11,7 @@ set(SOURCE_FILES
         write_console.c
         itoa_base.c
         specifier_and_modifier.c
+        clear_char_mas.c.c
         #libft/libft.a
         libftprintf.h)
         ##libft/libft.h)

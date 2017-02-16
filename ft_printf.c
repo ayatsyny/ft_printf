@@ -164,11 +164,16 @@ int get_pression(char *format)
 {
     char *tmp;
     int num;
+	int i;
 
     num = 0;
-    if (!(tmp = ft_strrchr(format, '.')) && !(tmp = ft_strchr("123456789", tmp))
+	i = 0;
+    if ((tmp = ft_strrchr(format, '.')))
+		while (*(tmp + i) && !ft_strchr("123456789", tmp[i]))
+			i++;
+	else
         return (num);
-    num = ft_atoi(tmp);
+    num = ft_atoi(tmp + i);
     return (num);
 }
 
@@ -199,7 +204,7 @@ t_fmt *ft_clear(t_fmt *data)
 	data->flag_second = '=';
 	data->width = 0;
 	data->precision = -1;
-	data->modifier = '=';
+	data->modifier = 0;
 	data->specifier = '=';
 	data->str = NULL;
 	return (data);
@@ -207,7 +212,7 @@ t_fmt *ft_clear(t_fmt *data)
 
 int     ft_printf(const char *format, ...)
 {
-    t_fmt       *fmt;
+    t_fmt 		fmt;
     va_list     ap;
     unsigned    read;
     int         i;
@@ -222,14 +227,15 @@ int     ft_printf(const char *format, ...)
             i = 0;
             while (i < ft_strlen(format) && !ft_strchr("0123456789hljz-+0# ", format[i]))
                 i++;
-            combination(ft_strncpy(ft_strnew(i - 1), format, i - 1), fmt);
-			compile_specifier_and_modifier(ap, fmt);
-			ft_switch(fmt, read);
+            combination(ft_strncpy(ft_strnew(i - 1), format, i - 1), &fmt);
+			compile_specifier_and_modifier(&ap, &fmt);
+			ft_switch(&fmt, read);
             format += (format[i]) ? i + 1 : i;
         }
         else
             ft_putchar(format[i++]);
     }
+	va_end(ap);
     return (10);
 
 }

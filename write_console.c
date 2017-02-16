@@ -22,7 +22,7 @@ unsigned	write_decimal(t_fmt *fmt)
 	calc_flags(fmt);
 	calc_width(fmt);
     if (fmt->specifier == 'x')
-        ft_fun(fmt->str);
+		ft_strlowcase(fmt->str);
 	ft_putstr(fmt->str);
 	return ((unsigned)ft_strlen(fmt->str));
 }
@@ -67,8 +67,8 @@ void calc_width(t_fmt *fmt)
 		if (sing == '0' && (cnt += ft_strchr("xX", fmt->specifier) ? 1 : 0))
 			clear_flag_in_center_str(*fmt, ft_strlen(del[0]), cnt);
 	}
-	del_char_data(*del, 2);
-//	ft_memdel((void **) &del);
+//	del_char_data(*del, 2);
+	ft_memdel((void **) &del);
 }
 
 void	calc_pression(t_fmt *fmt)
@@ -89,6 +89,6 @@ void	calc_pression(t_fmt *fmt)
 		del[1] = fmt->str;
 		fmt->str = ft_strjoin(del[0], fmt->str);
 	}
-	del_char_data(*del, 3);
-//	ft_memdel((void **) &del);
+//	del_char_data(*del, 3);
+	ft_memdel((void **) &del);
 }
