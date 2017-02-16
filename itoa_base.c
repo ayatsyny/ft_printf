@@ -41,5 +41,6 @@ char    *ft_itoa_base(intmax_t value, char base_specifier)
     if (value < 0)
         mas[i++] = '-';
     process_itoa(value, get_base(base_specifier), mas, &i);
+	mas[i] = '\0';
     return (mas);
 }
