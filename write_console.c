@@ -82,7 +82,7 @@ void calc_width(t_fmt *fmt)
 			|| fmt->str[0] == '-' ? 1 : 0;
 	if ((elem = fmt->width - (int)ft_strlen(fmt->str)) > 0)
 	{
-		del[0] = ft_memchr(ft_strnew(elem), sing, elem);
+		del[0] = ft_memset(ft_strnew(elem), sing, elem);
 		del[1] = fmt->str;
 		if (fmt->flag_first == '-')
 			fmt->str = ft_strjoin(fmt->str, del[0]);
@@ -98,7 +98,7 @@ void calc_width(t_fmt *fmt)
 void	calc_pression(t_fmt *fmt)
 {
 	int sing;
-	int elem;
+	size_t elem;
 	char *del[2];
 
 //	del = ft_memalloc(3);
@@ -106,12 +106,12 @@ void	calc_pression(t_fmt *fmt)
 	del[0] = NULL;
 	del[1] = NULL;
 	sing = fmt->str[0] == '-' ? 1 : 0;
-	elem = fmt->precision + sing - (int)ft_strlen(fmt->str);
+	elem = (size_t)(fmt->precision + sing - ft_strlen(fmt->str));
     if ((fmt->str[0] == '0' || (sing && fmt->str[1] == '0')) && fmt->precision < 0)
         ft_strclr(fmt->str);
 	else if (elem > 0)
 	{
-		del[0] = ft_memchr(ft_strnew(elem), '0', elem);
+		del[0] = (char *)ft_memset(ft_strnew(elem), '0', elem);
 		del[1] = fmt->str;
 		fmt->str = ft_strjoin(del[0], fmt->str);
 	}
