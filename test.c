@@ -46,8 +46,9 @@ int main(void)
 		//var("%d", "548");
 		//int a = 10;
 		//printf("%.2d\n", -023145);
-        printf("%x\n", 100);
-        ft_printf("%x\n", 100);
+        printf("\nint printf [%d] \n", printf("%d is one", 1));
+		printf("\n");
+		printf("\nint ft_printf [%d] \n", ft_printf("%d is one", 1));
 
 //		printf("%o\n", -023);
 //		printf("%x\n", -023);

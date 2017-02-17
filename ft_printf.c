@@ -13,15 +13,17 @@
 #include <ctype.h>
 #include "libftprintf.h"
 
-unsigned	ft_switch(t_fmt *fmt, unsigned len_writen)
+int	ft_switch(t_fmt *fmt, int *len_writen)
 {
     if (ft_strchr("diuUDoxOXp", fmt->specifier))
-        len_writen += write_decimal(fmt);
+        *len_writen += write_decimal(fmt);
+	else if (ft_strchr("cs", fmt->specifier))
+		*len_writen += write_str(fmt);
 //    else if (ft_strchr("cC", fmt->specifier))
 //        return ;
 //    else if (ft_strchr("sS", fmt->specifier))
 //        return ;
-	return (len_writen);
+	return (*len_writen);
 }
 
 unsigned     get_width(char *format)
@@ -88,8 +90,8 @@ int		end_format(char	*format, t_fmt *fmt)
             }
             if (end_letter[j] == format[i])
             {
-                fmt->specifier = end_letter[j];
-                return (-1);
+                //fmt->specifier = end_letter[j];
+                return (i);
             }
         }
 //		while(end_letter[j] && end_letter[j] != format[i])
@@ -101,7 +103,7 @@ int		end_format(char	*format, t_fmt *fmt)
 //		if (k < strlen(CONVERSION))
 //			return (int(i));
 	}
-	return (-1);
+	return (0);
 }
 
 int		find_zero(char *format)
@@ -214,8 +216,9 @@ int     ft_printf(const char *format, ...)
 {
     t_fmt 		fmt;
     va_list     ap;
-    unsigned    read;
+    int    read;
     size_t         i;
+	int			end;
 
     read = 0;
     i = 0;
@@ -227,32 +230,43 @@ int     ft_printf(const char *format, ...)
             i = 0;
             while (i < ft_strlen(format) && !ft_strchr("0123456789hljz-+0# ", format[i]))
                 i++;
-            combination(ft_strncpy(ft_strnew(i - 1), format, i - 1), &fmt);
+			ft_clear(&fmt);
+			end = end_format((char *) format, &fmt);
+			combination(ft_strncpy(ft_strnew(end), format, end), &fmt);
+
 			compile_specifier_and_modifier(&ap, &fmt);
-			ft_switch(&fmt, read);
-            format += (format[i]) ? i + 1 : i;
+			ft_switch(&fmt, &read);
+            format += (format[i]) ? end : i;
         }
         else
-            ft_putchar(format[i++]);
+		{
+			ft_putchar(*format++);
+			read++;
+		}
     }
 	va_end(ap);
-    return (10);
+    return (read);
 
 }
 
-void combination(char *str, t_fmt *fmt)
+size_t combination(char *str, t_fmt *fmt)
 {
     char *del;
     int len;
+	size_t index = 0;
+	//char *tmp;
 
     del = str;
     len = (int)ft_strlen(str);
-    ft_clear(fmt);
-    fmt->specifier = ft_strchr(CONVERSION, str[len - 1]) ? str[len - 1] : 127;
+    //ft_clear(fmt);
+	//tmp = ft_strchr(CONVERSION, str[len - 1]);
+    //fmt->specifier = tmp != NULL ? str[len - 1] : '=';
+	//index = fmt->specifier != '=' ? (size_t)(str - tmp) : 0;
     find_flags(del,  fmt);
     fmt->width = get_width(del);
     fmt->precision = get_pression(str);
     fmt->modifier = (unsigned char)find_conversion(del);
     free(del);
+	return (index);
 //    return (fmt->specifier != 127 ? compile_specifier_and_modifier(p, *fmt) : 0);
 }

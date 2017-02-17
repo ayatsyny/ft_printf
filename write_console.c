@@ -16,7 +16,7 @@ static void clear_flag_in_center_str(t_fmt fmt, unsigned skip_len, size_t copy_l
 	}
 }
 
-unsigned	write_decimal(t_fmt *fmt)
+int	write_decimal(t_fmt *fmt)
 {
 	if (fmt->precision)
 		calc_pression(fmt);
@@ -27,7 +27,26 @@ unsigned	write_decimal(t_fmt *fmt)
     if (fmt->specifier == 'x')
 		ft_strlowcase(fmt->str);
 	ft_putstr(fmt->str);
-	return ((unsigned)ft_strlen(fmt->str));
+	return ((int)ft_strlen(fmt->str));
+}
+
+void cal_letter(char *c, t_fmt *fmt)
+{
+	char *t;
+
+	t = c;
+	if (fmt->precision)
+		calc_pression(fmt);
+	if (fmt->flag_first != '=' || fmt->flag_second != '=')
+		calc_flags(fmt);
+	if (fmt->width)
+		calc_width(fmt);
+}
+
+int	write_str(t_fmt *fmt)
+{
+	ft_putstr(fmt->str);
+	return ((int)ft_strlen(fmt->str));
 }
 
 void    calc_flags(t_fmt *fmt)

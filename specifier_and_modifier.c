@@ -53,5 +53,8 @@ void    compile_specifier_and_modifier(va_list *ap, t_fmt *fmt)
 		fmt->str = ft_itoa_base(convert_di(ap, *fmt), fmt->specifier);
 	else if(ft_strchr("puoxXUO", fmt->specifier))
 		fmt->str = ft_itoa_base(convert_ox(ap, *fmt), fmt->specifier);
+	else if (ft_strchr("cs", fmt->specifier))
+		cal_letter((fmt->str = va_arg(*ap, char *)), fmt);
+
 //    else if (ft_strchr("csCS", fmt->specifier))
 }
