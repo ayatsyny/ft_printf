@@ -59,7 +59,7 @@ void    calc_flags(t_fmt *fmt)
 		ft_strncpy(flag_buff, "0X", 2);
 	else if (fmt->flag_second == '#' && ft_strchr("oO", fmt->specifier))
 		flag_buff[0] = '0';
-	else if (!(flag_buff[0] = fmt->str[0] == '-' ? '-' : 0))
+	else if (!(flag_buff[0] = fmt->str[0] == '-' ? '\0' : 0))
 		flag_buff[0] = ft_strchr("+ ", fmt->flag_second) ? fmt->flag_second : 0;
 	del = fmt->str;
 	fmt->str = ft_strjoin(flag_buff, fmt->str);

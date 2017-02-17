@@ -12,6 +12,7 @@
 
 #include <ctype.h>
 #include "libftprintf.h"
+#include <string.h>
 
 int	ft_switch(t_fmt *fmt, int *len_writen)
 {
@@ -147,14 +148,16 @@ void	find_flags(char *format, t_fmt *data)
 // version 1.2
 char		find_conversion(char *format)
 {
-    static char *conversion[] = {"hh", "h", "l", "ll", "j", "z"};
+    static char *conversion[] = {"hh", "h", "ll", "l", "j", "z"};
     int i;
+	//char *p;
 
     i = -1;
     while (++i < 6)
         if (strstr(format, conversion[i]))
         {
-            if (i == 0 || i == 3)
+			//p = conversion[i];
+            if (i == 0 || i == 2)
                 return ((unsigned char)(conversion[i][0] << 1));
             else
                 return (conversion[i][0]);
