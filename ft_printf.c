@@ -38,8 +38,8 @@ unsigned     get_width(char *format)
     number = 0;
     if (!format)
         return (0);
-    len = (int)ft_strlen(format) - 1;
-    while (--len > 0)
+    len = (int)ft_strlen(format);
+    while (--len >= 0)
         if (isdigit(format[len]))
         {
             f_end = len--;
