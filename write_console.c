@@ -20,7 +20,7 @@ int	write_decimal(t_fmt *fmt)
 {
 	if (fmt->precision)
 		calc_pression(fmt);
-	if (fmt->flag_first != '=' || fmt->flag_second != '=')
+	if (fmt->str[0] != '-' && (fmt->flag_first != '=' || fmt->flag_second != '='))
 		calc_flags(fmt);
 	if (fmt->width)
 		calc_width(fmt);
