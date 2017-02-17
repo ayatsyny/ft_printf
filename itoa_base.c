@@ -8,11 +8,21 @@ static void process_itoa(intmax_t value, int base, char *s, int *a)
 {
     char value_str[] = "0123456789ABCDEF";
 
-    if (value >= base)
+    if (value >= base || value <= -base)
         process_itoa(value / base, base, s, a);
     s[(*a)++] = value_str[A(value % base)];
 
 }
+
+//static void process_itoa2(uintmax_t value, int base, char *s, int *a)
+//{
+//	char value_str[] = "0123456789ABCDEF";
+//
+//	if (value >= base)
+//		process_itoa(value / base, base, s, a);
+//	s[(*a)++] = value_str[A(value % base)];
+//
+//}
 
 static int get_base(char letter)
 {
@@ -41,7 +51,7 @@ char    *ft_itoa_base(intmax_t value, char base_specifier)
     if (value < 0 && base == 10)
 	{
 		mas[i++] = '-';
-		value = -value;
+		//value = -value;
 	}
     process_itoa(value, base, mas, &i);
 	mas[i] = '\0';

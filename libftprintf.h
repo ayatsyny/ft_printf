@@ -14,7 +14,7 @@
 # define LIBFTPRINTF_H
 //# define FLAGS "-+0# "    //	!!!! warning priopity very importent
 //# define MODIFIER "hljz" //	!!!! warning priopity very importent
-# define CONVERSION "pdiuoxcsDUOXCS"
+# define CONVERSION "pdiuoxcsDUOXCS%"
 #include <stdarg.h>
 #include <stdint.h>
 #include "libft/libft.h"
