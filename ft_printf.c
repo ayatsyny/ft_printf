@@ -215,7 +215,7 @@ int     ft_printf(const char *format, ...)
     t_fmt 		fmt;
     va_list     ap;
     unsigned    read;
-    int         i;
+    size_t         i;
 
     read = 0;
     i = 0;
