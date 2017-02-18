@@ -4,15 +4,17 @@
 
 #include "libftprintf.h"
 
-static void clear_flag_in_center_str(t_fmt fmt, unsigned skip_len, size_t copy_len)
+static void clear_flag_in_center_str(t_fmt *fmt, size_t str_len)
 {
-	int len;
-
-	len = (int)copy_len;
-	while (--len >= 0)
+	if (ft_strchr("xX", fmt->specifier))
 	{
-		fmt.str[copy_len] = fmt.str[skip_len - len];
-		fmt.str[skip_len - len] = '0';
+		fmt->str[str_len + 1] = '0';
+		fmt->str[1] = fmt->specifier;
+	}
+	else
+	{
+		fmt->str[0] = fmt->str[str_len];
+		fmt->str[str_len] = fmt->flag_first;
 	}
 }
 
@@ -73,13 +75,10 @@ void calc_width(t_fmt *fmt)
 	char *del[2];
 	size_t cnt;
 
-	//del = (char *)ft_memalloc(2);
-	//init_char_points(*del, 2);
 	del[0] = NULL;
 	del[1] = NULL;
 	sing = fmt->flag_first == '0' ? fmt->flag_first : ' ';
-	cnt = ft_strchr("oO", fmt->specifier) || ft_strchr("+ ", fmt->specifier)
-			|| fmt->str[0] == '-' ? 1 : 0;
+	cnt = ft_strchr("+ #", fmt->flag_second) || fmt->str[0] == '-' ? 1 : 0;
 	if ((elem = fmt->width - (int)ft_strlen(fmt->str)) > 0)
 	{
 		del[0] = ft_memset(ft_strnew(elem), sing, elem);
@@ -87,11 +86,13 @@ void calc_width(t_fmt *fmt)
 		if (fmt->flag_first == '-')
 			fmt->str = ft_strjoin(fmt->str, del[0]);
 		else
-			fmt->str = ft_strjoin((char *)del[0], fmt->str);
-		if (sing == '0' && (cnt += ft_strchr("xX", fmt->specifier) ? 1 : 0))
-			clear_flag_in_center_str(*fmt, ft_strlen(del[0]), cnt);
+		{
+			fmt->str = ft_strjoin(del[0], fmt->str);
+			if (cnt && fmt->flag_first == '0' && fmt->flag_second != '=')
+				clear_flag_in_center_str(fmt, ft_strlen(del[0]));
+		}
+//		if (sing == '0' && (cnt += ft_strchr("xX", fmt->specifier) ? 1 : 0))
 	}
-//	del_char_data(*del, 2);
 	ft_memdel((void **) &del);
 }
 

@@ -47,13 +47,14 @@ unsigned     get_width(char *format)
                  len--;
             if (len < f_end && format[f_end - len] != '0')
             {
-                num = ft_strsub(format, (unsigned)(len + 1), (size_t)f_end - len);
+//                num = ft_strsub(format, (unsigned)(len + 1), (size_t)f_end - len);
+				num = format + f_end;
                 break ;
             }
         }
     if (num)
         number = atoi(num);
-    free(num);
+    //free(num);
     return ((unsigned)number);
 }
 
@@ -120,12 +121,12 @@ int		find_zero(char *format)
 		res = ft_isdigit(format[i]);
 		if (res != 0)
 		{
-			if (res != '0' && !f)
-				f = 1;
-			else if (res == '0' && !f)
+			if (format[i] == '0')
 				return (1);
-			else if (res == 0)
-				f = 0;
+			if (format[i] != '0' && !f)
+				f = 1;
+//			else if (res == 0)
+//				f = 0;
 		}
 	}
 	return (0);
