@@ -6,6 +6,8 @@
 
 static void clear_flag_in_center_str(t_fmt *fmt, size_t str_len)
 {
+	char tmp;
+
 	if (ft_strchr("xX", fmt->specifier))
 	{
 		fmt->str[str_len + 1] = '0';
@@ -13,8 +15,12 @@ static void clear_flag_in_center_str(t_fmt *fmt, size_t str_len)
 	}
 	else
 	{
+		tmp = fmt->str[0];
 		fmt->str[0] = fmt->str[str_len];
-		fmt->str[str_len] = fmt->flag_first;
+		fmt->str[str_len] = tmp;
+//		fmt->str[0] = fmt->str[0] + fmt->str[str_len];
+//		fmt->str[str_len] = fmt->str[0] - fmt->str[str_len];
+//		fmt->str[0] = fmt->str[0] - fmt->str[str_len];
 	}
 }
 
@@ -88,7 +94,7 @@ void calc_width(t_fmt *fmt)
 		else
 		{
 			fmt->str = ft_strjoin(del[0], fmt->str);
-			if (cnt && fmt->flag_first == '0' && fmt->flag_second != '=')
+			if (cnt && fmt->flag_first == '0')
 				clear_flag_in_center_str(fmt, ft_strlen(del[0]));
 		}
 //		if (sing == '0' && (cnt += ft_strchr("xX", fmt->specifier) ? 1 : 0))
