@@ -46,9 +46,9 @@ int main(void)
 		//var("%d", "548");
 		//int a = 10;
 		//printf("%.2d\n", -023145);
-        printf("\nint printf [%d] \n", printf("%05d", -42));
+        printf("\nint printf [%d] \n", printf("%03.2d", -1));
 		printf("\n");
-		printf("\nint ft_printf [%d] \n", ft_printf("%05d", -42));
+		printf("\nint ft_printf [%d] \n", ft_printf("%03.2d", -1));
 
 //		printf("%p\n", -023);
 //		printf("%x\n", -023);

@@ -83,7 +83,8 @@ void calc_width(t_fmt *fmt)
 
 	del[0] = NULL;
 	del[1] = NULL;
-	sing = fmt->flag_first == '0' ? fmt->flag_first : ' ';
+	sing = fmt->flag_first == '0' ^ fmt->precision > 0 ? fmt->flag_first : ' ';
+	sing = sing == '0' ? sing : ' ';
 	cnt = ft_strchr("+ #", fmt->flag_second) || fmt->str[0] == '-' ? 1 : 0;
 	if ((elem = fmt->width - (int)ft_strlen(fmt->str)) > 0)
 	{
@@ -97,7 +98,6 @@ void calc_width(t_fmt *fmt)
 			if (cnt && fmt->flag_first == '0')
 				clear_flag_in_center_str(fmt, ft_strlen(del[0]));
 		}
-//		if (sing == '0' && (cnt += ft_strchr("xX", fmt->specifier) ? 1 : 0))
 	}
 	ft_memdel((void **) &del);
 }
@@ -122,6 +122,8 @@ void	calc_pression(t_fmt *fmt)
 		del[1] = fmt->str;
 		fmt->str = ft_strjoin(del[0], fmt->str);
 	}
+	if (fmt->str[0] == '-' || ft_strchr(fmt->str, '-'))
+		clear_flag_in_center_str(fmt, ft_strlen(del[0]));
 //	del_char_data(*del, 3);
 	ft_memdel((void **) &del);
 }
