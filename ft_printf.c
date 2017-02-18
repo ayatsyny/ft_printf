@@ -30,32 +30,27 @@ int	ft_switch(t_fmt *fmt, int *len_writen)
 unsigned     get_width(char *format)
 {
     int len;
-    int f_end;
     char *num;
     int number;
 
     num = NULL;
     number = 0;
-    if (!format)
-        return (0);
     len = (int)ft_strlen(format);
     while (--len >= 0)
         if (isdigit(format[len]))
         {
-            f_end = len--;
-            while (len > 0 && ft_isdigit(format[len]))
-                 len--;
-            if (len < f_end && format[f_end - len] != '0')
-            {
-//                num = ft_strsub(format, (unsigned)(len + 1), (size_t)f_end - len);
-				num = format + f_end;
-                break ;
-            }
+            while (--len >= 0 && ft_isdigit(format[len]))
+				;
+			len = len < 0 ? 0 : len;
+			if (format[len] != '.')
+			{
+				num = format + len;
+				break ;
+			}
         }
     if (num)
         number = atoi(num);
-    //free(num);
-    return ((unsigned)number);
+    return (number < 0 ? -((unsigned)number) : (unsigned)number);
 }
 
 int		end_format(char	*format, t_fmt *fmt)

@@ -46,11 +46,11 @@ int main(void)
 		//var("%d", "548");
 		//int a = 10;
 		//printf("%.2d\n", -023145);
-        printf("\nint printf [%d] \n", printf("%#6o", 2500));
+        printf("\nint printf [%d] \n", printf("%-5d", 42));
 		printf("\n");
-		printf("\nint ft_printf [%d] \n", ft_printf("%#6o", 2500));
+		printf("\nint ft_printf [%d] \n", ft_printf("%-5d", 42));
 
-//		printf("%o\n", -023);
+//		printf("%p\n", -023);
 //		printf("%x\n", -023);
 //		printf("%03.2d\n", 1);
 //		printf("%d\n", 10);
