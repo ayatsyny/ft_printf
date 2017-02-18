@@ -103,26 +103,17 @@ int		end_format(char	*format, t_fmt *fmt)
 	return (0);
 }
 
-int		find_zero(char *format)
+int		check_flag_zero(char *format)
 {
 	int i;
-	int res;
-	int f;
 
 	i = -1;
-	f = 0;
 	while (format[++i])
 	{
-		res = ft_isdigit(format[i]);
-		if (res != 0)
-		{
-			if (format[i] == '0')
-				return (1);
-			if (format[i] != '0' && !f)
-				f = 1;
-//			else if (res == 0)
-//				f = 0;
-		}
+		if (format[i] == '0')
+			return (1);
+		while(ft_strchr(".123456789", format[i]))
+			i++;
 	}
 	return (0);
 }
@@ -131,7 +122,7 @@ void	find_flags(char *format, t_fmt *data)
 {
     if (strchr(format, '-'))
         data->flag_first = '-';
-    else if (find_zero(format))
+    else if (check_flag_zero(format))
         data->flag_first = '0';
     if (strchr(format, '+'))
         data->flag_second = '+';

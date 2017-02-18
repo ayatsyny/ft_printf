@@ -36,7 +36,7 @@ size_t		combination(char *str, t_fmt *fmt);
 char		find_conversion(char *format);
 void		find_flags(char *format, t_fmt *data);
 int         get_pression(char *format);
-int			find_zero(char *format);
+int			check_flag_zero(char *format);
 unsigned	get_width(char *format);
 void		compile_specifier_and_modifier(va_list *ap, t_fmt *fmt);
 int			ft_switch(t_fmt *fmt, int *len_writen);
