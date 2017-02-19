@@ -40,28 +40,25 @@ static uintmax_t convert_ox(va_list *ap, t_fmt fmt)
 		num = (unsigned long long int)num;
 	else if (fmt.modifier == 'z')
 		num = (size_t)num;
-	else if (fmt.modifier == '=')
+	else if (!fmt.modifier)
 		num = (unsigned int)num;
 	return (num);
 }
 
-//static char  *convert_cs_pro(va_list *ap, t_fmt fmt)
-//{
-//	char *tmp;
-//
-//	if (ft_strchr("c%", fmt.specifier))
-//}
-
 void    compile_specifier_and_modifier(va_list *ap, t_fmt *fmt)
 {
-//	intmax_t num;
-//	num = va_arg(*ap, intmax_t);
     if (ft_strchr("diD", fmt->specifier))
 		fmt->str = ft_itoa_base(convert_di(ap, *fmt), fmt->specifier);
 	else if(ft_strchr("puoxXUO", fmt->specifier))
 		fmt->str = ft_itoa_base(convert_ox(ap, *fmt), fmt->specifier);
-	else if (ft_strchr("cs%", fmt->specifier))
-		cal_letter((fmt->str = va_arg(*ap, char *)), fmt);
-
-//    else if (ft_strchr("csCS", fmt->specifier))
+	else if (ft_strchr("s", fmt->specifier))
+	{
+		fmt->str = va_arg(*ap, char *);
+		cal_letter(fmt);
+	}
+	else if (ft_strchr("c%", fmt->specifier))
+	{
+		fmt->str[0] = va_arg(*ap, int);
+		cal_letter(fmt);
+	}
 }

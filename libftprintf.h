@@ -56,8 +56,13 @@ void		calc_pression(t_fmt *fmt);
 void    	calc_flags(t_fmt *fmt);
 void		calc_width(t_fmt *fmt);
 
-int	write_str(t_fmt *fmt);
-void cal_letter(char *c, t_fmt *fmt);
+/*
+**  write str and letter functions
+*/
+
+int		write_str(t_fmt *fmt);
+void	cal_letter(t_fmt *fmt);
+void	calc_pression_str(t_fmt *fmt);
 
 /*
 ** clear data chars in matrix

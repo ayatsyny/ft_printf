@@ -28,7 +28,7 @@ static int get_base(char letter)
 	int num;
 
 	num = 0;
-	if (ft_strchr("diD", letter))
+	if (ft_strchr("duiDU", letter))
 		num = 10;
 	else if (ft_strchr("pxX", letter))
 		num = 16;

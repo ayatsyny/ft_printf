@@ -144,7 +144,7 @@ char		find_conversion(char *format)
         if (strstr(format, conversion[i]))
         {
 			//p = conversion[i];
-            if (i == 0 || i == 2)
+            if (i == 0 || i == 3)
                 return ((unsigned char)(conversion[i][0] << 1));
             else
                 return (conversion[i][0]);
@@ -256,6 +256,7 @@ size_t combination(char *str, t_fmt *fmt)
     fmt->width = get_width(del);
     fmt->precision = get_pression(str);
     fmt->modifier = (unsigned char)find_conversion(del);
+	fmt->specifier == 'c' ? fmt->str = ft_strnew(1) : 0;
     free(del);
 	return (index);
 //    return (fmt->specifier != 127 ? compile_specifier_and_modifier(p, *fmt) : 0);

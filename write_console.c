@@ -3,6 +3,7 @@
 //
 
 #include "libftprintf.h"
+#include <string.h>
 
 static void clear_flag_in_center_str(t_fmt *fmt, size_t str_len)
 {
@@ -38,13 +39,10 @@ int	write_decimal(t_fmt *fmt)
 	return ((int)ft_strlen(fmt->str));
 }
 
-void cal_letter(char *c, t_fmt *fmt)
+void cal_letter(t_fmt *fmt)
 {
-	char *t;
-
-	t = c;
 	if (fmt->precision)
-		calc_pression(fmt);
+		calc_pression_str(fmt);
 	if (fmt->flag_first != '=' || fmt->flag_second != '=')
 		calc_flags(fmt);
 	if (fmt->width)
@@ -53,7 +51,13 @@ void cal_letter(char *c, t_fmt *fmt)
 
 int	write_str(t_fmt *fmt)
 {
+	char *del;
+
+	del = NULL;
+	(fmt->specifier == 'c' || (fmt->specifier == 's' && !fmt->str &&
+			(fmt->str = ft_strdup("(null)")))) ? del = fmt->str : 0;
 	ft_putstr(fmt->str);
+	free(del);
 	return ((int)ft_strlen(fmt->str));
 }
 
@@ -67,6 +71,8 @@ void    calc_flags(t_fmt *fmt)
 		ft_strncpy(flag_buff, "0X", 2);
 	else if (fmt->flag_second == '#' && ft_strchr("oO", fmt->specifier))
 		flag_buff[0] = '0';
+	else if (ft_strchr("uU", fmt->specifier))
+		return ;
 	else if (!(flag_buff[0] = fmt->str[0] == '-' ? '\0' : 0))
 		flag_buff[0] = ft_strchr("+ ", fmt->flag_second) ? fmt->flag_second : 0;
 	del = fmt->str;
@@ -105,15 +111,15 @@ void calc_width(t_fmt *fmt)
 void	calc_pression(t_fmt *fmt)
 {
 	int sing;
-	size_t elem;
+	int elem;
 	char *del[2];
 
 //	del = ft_memalloc(3);
 //	init_char_points(*del, ele);
 	del[0] = NULL;
 	del[1] = NULL;
-	sing = fmt->str[0] == '-' ? 1 : 0;
-	elem = (size_t)(fmt->precision + sing - ft_strlen(fmt->str));
+	sing = fmt->str[0] == '-' && !ft_strchr("scSC", fmt->specifier) ? 1 : 0;
+	elem = (int)(fmt->precision + sing - ft_strlen(fmt->str));
     if ((fmt->str[0] == '0' || (sing && fmt->str[1] == '0')) && fmt->precision < 0)
         ft_strclr(fmt->str);
 	else if (elem > 0)
@@ -126,4 +132,10 @@ void	calc_pression(t_fmt *fmt)
 		clear_flag_in_center_str(fmt, ft_strlen(del[0]));
 //	del_char_data(*del, 3);
 	ft_memdel((void **) &del);
+}
+
+void 	calc_pression_str(t_fmt *fmt)
+{
+	if (fmt->precision > 0)
+		fmt->str = ft_strsub(fmt->str, 0, (size_t)fmt->precision);
 }
