@@ -14,16 +14,21 @@
 #include "libftprintf.h"
 #include <string.h>
 
-int	ft_switch(t_fmt *fmt, int *len_writen)
-{
-    if (ft_strchr("diuUDoxOXp", fmt->specifier))
-        *len_writen += write_decimal(fmt);
+int	ft_switch(t_fmt *fmt, int *len_writen) {
+	char *del;
+
+	del = NULL;
+	if (ft_strchr("diuUDoxOXp", fmt->specifier))
+		*len_writen += write_decimal(fmt);
 	else if (ft_strchr("cs%", fmt->specifier))
 		*len_writen += write_str(fmt);
 //    else if (ft_strchr("cC", fmt->specifier))
 //        return ;
 //    else if (ft_strchr("sS", fmt->specifier))
 //        return ;
+	if (ft_strchr("diuUDoxOXp%c", fmt->specifier))
+		del = fmt->str;
+	free(del);
 	return (*len_writen);
 }
 
@@ -34,7 +39,6 @@ unsigned     get_width(char *format)
     int number;
 
     num = NULL;
-    number = 0;
     len = (int)ft_strlen(format);
     while (--len >= 0)
         if (isdigit(format[len]))
@@ -44,12 +48,11 @@ unsigned     get_width(char *format)
 			len = len < 0 ? 0 : len;
 			if (format[len] != '.')
 			{
-				num = format + len;
+				num = format + len + (format[len] == '#' ? 1 : 0);
 				break ;
 			}
         }
-    if (num)
-        number = atoi(num);
+	number = num != NULL ? atoi(num) : 0;
     return (number < 0 ? -((unsigned)number) : (unsigned)number);
 }
 
@@ -124,6 +127,8 @@ void	find_flags(char *format, t_fmt *data)
         data->flag_first = '-';
     else if (check_flag_zero(format))
         data->flag_first = '0';
+	if (data->specifier == '%')
+		return ;
     if (strchr(format, '+'))
         data->flag_second = '+';
     else if (strchr(format, ' '))
@@ -158,13 +163,13 @@ int get_pression(char *format)
     int num;
 	int i;
 
-    num = 0;
+    //num = 0;
 	i = 0;
     if ((tmp = ft_strrchr(format, '.')))
 		while (*(tmp + i) && !ft_strchr("123456789", tmp[i]))
 			i++;
 	else
-        return (num);
+        return (-1);
     num = ft_atoi(tmp + i);
     return (num);
 }
@@ -211,15 +216,13 @@ int     ft_printf(const char *format, ...)
 	int			end;
 
     read = 0;
-    i = 0;
     va_start(ap, format);
     while (*format)
-    {
         if (*format == '%' && format++)
         {
             i = 0;
-            while (i < ft_strlen(format) && !ft_strchr("0123456789hljz-+0# ", format[i]))
-                i++;
+            while (i < ft_strlen(format) && !ft_strchr(CONVERSION, format[i]))
+				i++;
 			ft_clear(&fmt);
 			end = end_format((char *) format, &fmt);
 			combination(ft_strncpy(ft_strnew(end), format, end), &fmt);
@@ -233,10 +236,8 @@ int     ft_printf(const char *format, ...)
 			ft_putchar(*format++);
 			read++;
 		}
-    }
 	va_end(ap);
     return (read);
-
 }
 
 size_t combination(char *str, t_fmt *fmt)
@@ -256,7 +257,7 @@ size_t combination(char *str, t_fmt *fmt)
     fmt->width = get_width(del);
     fmt->precision = get_pression(str);
     fmt->modifier = (unsigned char)find_conversion(del);
-	fmt->specifier == 'c' ? fmt->str = ft_strnew(1) : 0;
+	fmt->specifier == 'c' || fmt->specifier == '%' ? fmt->str = ft_strnew(1) : 0;
     free(del);
 	return (index);
 //    return (fmt->specifier != 127 ? compile_specifier_and_modifier(p, *fmt) : 0);

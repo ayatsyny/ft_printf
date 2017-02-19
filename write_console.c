@@ -7,8 +7,6 @@
 
 static void clear_flag_in_center_str(t_fmt *fmt, size_t str_len)
 {
-	char tmp;
-
 	if (ft_strchr("xX", fmt->specifier))
 	{
 		fmt->str[str_len + 1] = '0';
@@ -16,19 +14,18 @@ static void clear_flag_in_center_str(t_fmt *fmt, size_t str_len)
 	}
 	else
 	{
-		tmp = fmt->str[0];
-		fmt->str[0] = fmt->str[str_len];
-		fmt->str[str_len] = tmp;
-//		fmt->str[0] = fmt->str[0] + fmt->str[str_len];
-//		fmt->str[str_len] = fmt->str[0] - fmt->str[str_len];
-//		fmt->str[0] = fmt->str[0] - fmt->str[str_len];
+//		tmp = fmt->str[0];
+//		fmt->str[0] = fmt->str[str_len];
+//		fmt->str[str_len] = tmp;
+		fmt->str[0] = fmt->str[0] + fmt->str[str_len];
+		fmt->str[str_len] = fmt->str[0] - fmt->str[str_len];
+		fmt->str[0] = fmt->str[0] - fmt->str[str_len];
 	}
 }
 
 int	write_decimal(t_fmt *fmt)
 {
-	if (fmt->precision)
-		calc_pression(fmt);
+	fmt->precision < 0 ? fmt->precision = 0 : calc_pression(fmt);
 	if (fmt->str[0] != '-' && (fmt->flag_first != '=' || fmt->flag_second != '='))
 		calc_flags(fmt);
 	if (fmt->width)
@@ -41,8 +38,7 @@ int	write_decimal(t_fmt *fmt)
 
 void cal_letter(t_fmt *fmt)
 {
-	if (fmt->precision)
-		calc_pression_str(fmt);
+	fmt->precision < 0 ? fmt->precision = 0 : calc_pression_str(fmt);
 	if (fmt->flag_first != '=' || fmt->flag_second != '=')
 		calc_flags(fmt);
 	if (fmt->width)
@@ -54,8 +50,13 @@ int	write_str(t_fmt *fmt)
 	char *del;
 
 	del = NULL;
-	(fmt->specifier == 'c' || (fmt->specifier == 's' && !fmt->str &&
-			(fmt->str = ft_strdup("(null)")))) ? del = fmt->str : 0;
+	if (fmt->specifier == 'c' && !fmt->str[0])
+	{
+		ft_putchar('\0');
+		return (1);
+	}
+	(!fmt->str && (fmt->specifier == 'c' || (fmt->specifier == 's' &&
+			(fmt->str = ft_strdup("(null)"))))) ? del = fmt->str : 0;
 	ft_putstr(fmt->str);
 	free(del);
 	return ((int)ft_strlen(fmt->str));
@@ -67,7 +68,8 @@ void    calc_flags(t_fmt *fmt)
 	char *del;
 
 	ft_strclr(flag_buff);
-	if (fmt->flag_second == '#' && ft_strchr("xX", fmt->specifier))
+	if (fmt->flag_second == '#' && ft_strchr("xX", fmt->specifier) &&
+			!ft_strequ(fmt->str, "0"))
 		ft_strncpy(flag_buff, "0X", 2);
 	else if (fmt->flag_second == '#' && ft_strchr("oO", fmt->specifier))
 		flag_buff[0] = '0';
@@ -114,13 +116,11 @@ void	calc_pression(t_fmt *fmt)
 	int elem;
 	char *del[2];
 
-//	del = ft_memalloc(3);
-//	init_char_points(*del, ele);
 	del[0] = NULL;
 	del[1] = NULL;
 	sing = fmt->str[0] == '-' && !ft_strchr("scSC", fmt->specifier) ? 1 : 0;
 	elem = (int)(fmt->precision + sing - ft_strlen(fmt->str));
-    if ((fmt->str[0] == '0' || (sing && fmt->str[1] == '0')) && fmt->precision < 0)
+    if (ft_strequ(fmt->str, "0") && !fmt->precision)
         ft_strclr(fmt->str);
 	else if (elem > 0)
 	{
@@ -130,7 +130,6 @@ void	calc_pression(t_fmt *fmt)
 	}
 	if (fmt->str[0] == '-' || ft_strchr(fmt->str, '-'))
 		clear_flag_in_center_str(fmt, ft_strlen(del[0]));
-//	del_char_data(*del, 3);
 	ft_memdel((void **) &del);
 }
 
