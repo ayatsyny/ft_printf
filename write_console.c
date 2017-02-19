@@ -38,28 +38,29 @@ int	write_decimal(t_fmt *fmt)
 
 void cal_letter(t_fmt *fmt)
 {
+	fmt->specifier == 'c' && fmt->width && !fmt->str[0] ? fmt->width-- : 0;
 	fmt->precision < 0 ? fmt->precision = 0 : calc_pression_str(fmt);
 	if (fmt->flag_first != '=' || fmt->flag_second != '=')
 		calc_flags(fmt);
-	if (fmt->width)
+//	if (fmt->specifier == 'c' && fmt->width > 1 && !fmt->str[0])
+//		fmt->width--;
+	if (fmt->width > 0)
 		calc_width(fmt);
 }
 
 int	write_str(t_fmt *fmt)
 {
 	char *del;
+	int count;
 
 	del = NULL;
-	if (fmt->specifier == 'c' && !fmt->str[0])
-	{
-		ft_putchar('\0');
-		return (1);
-	}
 	(!fmt->str && (fmt->specifier == 'c' || (fmt->specifier == 's' &&
 			(fmt->str = ft_strdup("(null)"))))) ? del = fmt->str : 0;
 	ft_putstr(fmt->str);
+	count = fmt->specifier == 'c' && (!fmt->str[0] ^ ft_strequ(fmt->str, " "))
+			? write(1, "\0", 1) : 0;
 	free(del);
-	return ((int)ft_strlen(fmt->str));
+	return ((int)ft_strlen(fmt->str) + count);
 }
 
 void    calc_flags(t_fmt *fmt)
@@ -79,7 +80,8 @@ void    calc_flags(t_fmt *fmt)
 		flag_buff[0] = ft_strchr("+ ", fmt->flag_second) ? fmt->flag_second : 0;
 	del = fmt->str;
 	fmt->str = ft_strjoin(flag_buff, fmt->str);
-	free(del);
+	if (ft_strchr("puoxXUO", fmt->specifier))
+		free(del);
 }
 
 void calc_width(t_fmt *fmt)
