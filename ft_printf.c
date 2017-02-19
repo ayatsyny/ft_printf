@@ -209,11 +209,11 @@ t_fmt *ft_clear(t_fmt *data)
 
 int     ft_printf(const char *format, ...)
 {
-    t_fmt 		fmt;
-    va_list     ap;
-    int    read;
-    size_t         i;
-	int			end;
+    t_fmt	fmt;
+    va_list	ap;
+    int		read;
+    size_t	i;
+	int		end;
 
     read = 0;
     va_start(ap, format);
@@ -224,9 +224,8 @@ int     ft_printf(const char *format, ...)
             while (i < ft_strlen(format) && !ft_strchr(CONVERSION, format[i]))
 				i++;
 			ft_clear(&fmt);
-			end = end_format((char *) format, &fmt);
+			end = end_format((char *)format, &fmt);
 			combination(ft_strncpy(ft_strnew(end), format, end), &fmt);
-
 			compile_specifier_and_modifier(&ap, &fmt);
 			ft_switch(&fmt, &read);
             format += (format[i]) ? end : i;
