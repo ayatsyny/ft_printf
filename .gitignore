@@ -3,7 +3,7 @@
 cmake-build-debug/
 
 # libft
-libft/
+# libft/
 
 # test_file
 test.c
