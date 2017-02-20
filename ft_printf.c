@@ -12,7 +12,6 @@
 
 #include <ctype.h>
 #include "libftprintf.h"
-#include <string.h>
 
 int	ft_switch(t_fmt *fmt, int *len_writen) {
 	char *del;
