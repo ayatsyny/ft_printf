@@ -48,13 +48,13 @@ int main(void)
 		//int a = 10;
 		//printf("%.2d\n", -023145);
 //		printf("{%03c}", 0);
-		printf("%zu, %zu", 0, ULLONG_MAX);
-		printf("\n");
-		ft_printf("%zu, %zu", 0, ULLONG_MAX);
-//		ft_printf("{%03c}", 0);
-        //printf("\nint printf [%d] \n", printf(printf("{%03c}", 0)));
+//		printf("%zu, %zu", 0, ULLONG_MAX);
 //		printf("\n");
-//		printf("\nint ft_printf [%d] \n", ft_printf(printf("{%03c}", 0)));
+//		ft_printf("%zu, %zu", 0, ULLONG_MAX);
+//		ft_printf("{%03c}", 0);
+        printf("\nint printf [%d] \n", printf("%jx", -4294967296));
+		printf("\n");
+		printf("\nint ft_printf [%d] \n", ft_printf("%jx", -4294967296));
 
 //		printf("%p\n", -023);
 //		printf("%x\n", -023);

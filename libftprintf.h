@@ -43,6 +43,7 @@ int			ft_switch(t_fmt *fmt, int *len_writen);
 int 		end_format(char	*format, t_fmt *fmt);
 
 char    *ft_itoa_base(intmax_t value, char base_specifier);
+char    *ft_itoa_base2(uintmax_t value, char base_specifier);
 
 /*
  ** write functi ons

@@ -146,7 +146,7 @@ char		find_conversion(char *format)
 
     i = -1;
     while (++i < 6)
-        if (strstr(format, conversion[i]))
+        if (ft_strstr(format, conversion[i]))
         {
 			//p = conversion[i];
             if (i == 0 || i == 2)
