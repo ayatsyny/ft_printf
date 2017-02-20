@@ -140,16 +140,16 @@ void	find_flags(char *format, t_fmt *data)
 // version 1.2
 char		find_conversion(char *format)
 {
-    static char *conversion[] = {"hh", "h", "ll", "l", "j", "z"};
+    static char *conversion[] = {"z", "j", "ll", "l", "hh", "h"};
     int i;
-	//char *p;
+//	char *p;
 
     i = -1;
     while (++i < 6)
         if (ft_strstr(format, conversion[i]))
         {
 			//p = conversion[i];
-            if (i == 0 || i == 2)
+            if (i == 2 || i == 4)
                 return ((unsigned char)(conversion[i][0] << 1));
             else
                 return (conversion[i][0]);
