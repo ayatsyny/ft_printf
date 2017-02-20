@@ -38,7 +38,7 @@ int	write_decimal(t_fmt *fmt)
 
 void cal_letter(t_fmt *fmt)
 {
-	ft_strchr("cC", fmt->specifier) && fmt->width && !fmt->str[0] ?
+	(fmt->specifier == 'c' || fmt->specifier == 'C') && fmt->width && !fmt->str[0] ?
 	fmt->width-- : 0;
 	fmt->precision < 0 ? fmt->precision = 0 : calc_pression_str(fmt);
 	if (fmt->flag_first != '=' || fmt->flag_second != '=')
@@ -55,10 +55,10 @@ int	write_str(t_fmt *fmt)
 	int count;
 
 	del = NULL;
-	(!fmt->str && (ft_strchr("cC", fmt->specifier) || (fmt->specifier == 's' &&
+	(!fmt->str && ((fmt->specifier == 'c' || fmt->specifier == 'C') || (fmt->specifier == 's' &&
 			(fmt->str = ft_strdup("(null)"))))) ? del = fmt->str : 0;
 	ft_putstr(fmt->str);
-	count = ft_strchr("cC", fmt->specifier) &&
+	count = (fmt->specifier == 'c' || fmt->specifier == 'C') &&
 					(!fmt->str[0] ^ ft_strequ(fmt->str, " "))
 			? write(1, "\0", 1) : 0;
 	free(del);

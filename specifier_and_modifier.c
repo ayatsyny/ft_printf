@@ -55,7 +55,8 @@ void    compile_specifier_and_modifier(va_list *ap, t_fmt *fmt)
 		fmt->str = ft_itoa_base2(convert_ox(ap, *fmt), fmt->specifier);
 	else if (ft_strchr("scC%", fmt->specifier))
 	{
-		ft_strchr("cC", fmt->specifier) ? fmt->str[0] = va_arg(*ap, int) : 0;
+		fmt->specifier == 'c' ? fmt->str[0] = va_arg(*ap, int) : 0;
+		fmt->specifier == 'C' ? fmt->str[0] = va_arg(*ap, int) : 0;
 		fmt->specifier == 's' ? fmt->str = va_arg(*ap, char *) : 0;
 		fmt->specifier == '%' ? fmt->str[0] = '%' : 0;
 		cal_letter(fmt);

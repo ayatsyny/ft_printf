@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.6)
 project(ft_printf)
 
-#set(CCMAKE_C_FLAGS "-std=c99 -Wall -Wextra -Werror")
-set(CMAKE_C_FLAGS "-std=c99")
+set(CCMAKE_C_FLAGS "-std=c99 -Wall -Wextra -Werror")
+#set(CMAKE_C_FLAGS "-std=c99")
 
 set(SOURCE_FILES
         #test_va.c
