@@ -12,6 +12,7 @@
 
 #include "libftprintf.h"
 #include <stdio.h>
+#include <limits.h>
 #include <stdarg.h>
 #include <string.h>
 #include <unistd.h>
@@ -46,9 +47,14 @@ int main(void)
 		//var("%d", "548");
 		//int a = 10;
 		//printf("%.2d\n", -023145);
-        printf("\nint printf [%d] \n", printf("%2c", 0));
+//		printf("{%03c}", 0);
+		printf("%zu, %zu", 0, ULLONG_MAX);
 		printf("\n");
-		printf("\nint ft_printf [%d] \n", ft_printf("%2c", 0));
+		ft_printf("%zu, %zu", 0, ULLONG_MAX);
+//		ft_printf("{%03c}", 0);
+        //printf("\nint printf [%d] \n", printf(printf("{%03c}", 0)));
+//		printf("\n");
+//		printf("\nint ft_printf [%d] \n", ft_printf(printf("{%03c}", 0)));
 
 //		printf("%p\n", -023);
 //		printf("%x\n", -023);

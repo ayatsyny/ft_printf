@@ -149,7 +149,7 @@ char		find_conversion(char *format)
         if (strstr(format, conversion[i]))
         {
 			//p = conversion[i];
-            if (i == 0 || i == 3)
+            if (i == 0 || i == 2)
                 return ((unsigned char)(conversion[i][0] << 1));
             else
                 return (conversion[i][0]);
@@ -231,10 +231,7 @@ int     ft_printf(const char *format, ...)
             format += (format[i]) ? end : i;
         }
         else
-		{
-			ft_putchar(*format++);
-			read++;
-		}
+			read += write(1, format++, 1);
 	va_end(ap);
     return (read);
 }

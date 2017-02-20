@@ -80,8 +80,8 @@ void    calc_flags(t_fmt *fmt)
 		flag_buff[0] = ft_strchr("+ ", fmt->flag_second) ? fmt->flag_second : 0;
 	del = fmt->str;
 	fmt->str = ft_strjoin(flag_buff, fmt->str);
-	if (ft_strchr("puoxXUO", fmt->specifier))
-		free(del);
+	if (fmt->specifier != 's')
+	free(del);
 }
 
 void calc_width(t_fmt *fmt)
