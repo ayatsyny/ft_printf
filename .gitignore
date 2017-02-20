@@ -6,10 +6,10 @@ cmake-build-debug/
 # libft/
 
 # test_file
-test.c
-test_main.c
-test_va.c
-printf_main.c
+# test.c
+# test_main.c
+# test_va.c
+# printf_main.c
 
  # Vim buffer file
  *.swp
