@@ -10,45 +10,54 @@
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Wextra -Werror
+NAME = libftprintf.a
+
+G = gcc
+
+FLAG = -Wall -Wextra -Werror
 
 SRC = ft_printf.c \
       specifier_and_modifier.c \
       write_console.c \
       itoa_base.c
 
+HDR = ft_printf.h
+
 OBJ = $(SRC:.c=.o)
-LIB = libftprintf.a
 
-TARGET = test
+DEL = rm -f
 
-all: $(LIB)
+all: $(NAME)
 
-$(LIB): $(OBJ)
-	make -C libft
-	ar -cru $(LIB) $(OBJ) libft/*.o
-	ranlib $(LIB)
-	@echo libftprintf.a is ALIVE!!!
+$(NAME) : $(OBJ)
+		make -C libft
+		ar -cru $(NAME) $(OBJ) libft/*.o
+		ranlib $(NAME)
+		@echo libftprintf.a is ALIVE!!!
 
-    %.o: %.c
-	    gcc $(CFLAGS) -I. -c -o $@ $<
+%.o: %.c
+		$(G) $(CFLAGS) -c -o $@ $<
 
 clean:
-	make clean -C ./libft
-	rm -f $(OBJ)
-	@echo OBJ_libftprintf is DEAD!!!
+		make clean -C ./libft
+		$(DEL) $(OBJ)
+		@echo OBJ_libftprintf is DEAD!!!
 
 fclean: clean
-	make fclean -C ./libft
-	rm -f $(LIB)
-	@echo libftprintf.a is DESTROYED!!!
+		make fclean -C ./libft
+		$(DEL) $(NAME)
+		@echo libftprintf.a is DESTROYED!!!
 
-re: fclean all
-	@echo ALL DAMP FPS is DESTROYED!!!
+re: all
+		make all -C ./libft
+		@echo ALL DAMM FPS is DESTROYED!!!
 
-$(TARGET):
-	gcc -c $(TARGET).c
-	gcc -o $(TARGET) $(TARGET).o ft_printf.o -I. $(LIB)
+norm:
+		make norm -C ./libft
+		norminette $(SRC) $(HDR) | grep -B 1 "Error"
 
 rmsh:
-	rm $(TARGET).o $(TARGET)
+		make rmsh -C ./libft
+		rm *~
+		rm \#*
+		rm *.out
