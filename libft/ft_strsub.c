@@ -28,5 +28,5 @@ char	*ft_strsub(char	const *s, unsigned int start, size_t len)
 	while (s && i < len)
 		fresh[i++] = *(char *)s++;
 	fresh[i] = '\0';
-	return (fresh)
+	return (fresh);
 }
