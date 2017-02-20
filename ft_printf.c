@@ -41,7 +41,7 @@ unsigned     get_width(char *format)
     num = NULL;
     len = (int)ft_strlen(format);
     while (--len >= 0)
-        if (isdigit(format[len]))
+        if (ft_isdigit(format[len]))
         {
             while (--len >= 0 && ft_isdigit(format[len]))
 				;
@@ -52,7 +52,7 @@ unsigned     get_width(char *format)
 				break ;
 			}
         }
-	number = num != NULL ? atoi(num) : 0;
+	number = num != NULL ? ft_atoi(num) : 0;
     return (number < 0 ? -((unsigned)number) : (unsigned)number);
 }
 
@@ -123,15 +123,15 @@ int		check_flag_zero(char *format)
 
 void	find_flags(char *format, t_fmt *data)
 {
-    if (strchr(format, '-'))
+    if (ft_strchr(format, '-'))
         data->flag_first = '-';
     else if (check_flag_zero(format))
         data->flag_first = '0';
 	if (data->specifier == '%')
 		return ;
-    if (strchr(format, '+'))
+    if (ft_strchr(format, '+'))
         data->flag_second = '+';
-    else if (strchr(format, ' '))
+    else if (ft_strchr(format, ' '))
         data->flag_second = ' ';
     if (ft_strchr(format, '#') && ft_strchr("oOxX", data->specifier))
         data->flag_second = '#';
@@ -172,27 +172,6 @@ int get_pression(char *format)
         return (-1);
     num = ft_atoi(tmp + i);
     return (num);
-}
-
-
-// todo you need change libft fot ft_strsub
-char	*test_strsub(char	const *s, unsigned int start, size_t len)
-{
-    char	*fresh;
-    size_t	i;
-
-    i = 0;
-    if (!s || start > (unsigned)len || (size_t)start > ft_strlen(s)
-        || (int)start <= -1)
-        return (NULL);
-    fresh = (char *)malloc(len + 1);
-    if (!fresh)
-        return (NULL);
-    s += start;
-    while (s && i < len)
-        fresh[i++] = *(char *)s++;
-    fresh[i] = '\0';
-    return (fresh);
 }
 
 t_fmt *ft_clear(t_fmt *data)

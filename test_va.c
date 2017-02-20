@@ -86,7 +86,7 @@ int main(void)
 	//	printf([qer%3Twer]");
 		char ss[] = "5554876_ diu dif dd000";
 		//write(1, "\", 1);
-		printf("test itoa [%d]\n", atoi(ss));
+		//printf("test itoa [%d]\n", atoi(ss));
 		printf("[% -hlhhd] [% + hlhhd]\n",356, -356);
 		printf("[%010x] [%010x]\n", 123, -123);
 		printf("[% -010x] [% -010x]\n", 123, -123);
