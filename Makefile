@@ -19,7 +19,8 @@ FLAG = -Wall -Wextra -Werror
 SRC = ft_printf.c \
       specifier_and_modifier.c \
       write_console.c \
-      itoa_base.c
+      itoa_base.c \
+      convert_to_char.c
 
 HDR = ft_printf.h
 

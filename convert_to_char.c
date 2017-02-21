@@ -2,6 +2,8 @@
 // Created by Andriy Yatsynyak on 2/21/17.
 //
 
+#include "libftprintf.h"
+
 char *covert_to_char(wchar_t *str)
 {
 	long	i;
