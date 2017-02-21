@@ -72,4 +72,6 @@ void	calc_pression_str(t_fmt *fmt);
 //void    init_char_points(char *point, unsigned elem);
 //void    del_char_data(char  *point, unsigned elem);
 
+char *covert_to_char(wchar_t *str);
+
 # endif

@@ -16,17 +16,15 @@
 int	ft_switch(t_fmt *fmt, int *len_writen) {
 	char *del;
 
-	del = NULL;
+	del = fmt->str;
 	if (ft_strchr("diuUDoxOXp", fmt->specifier))
 		*len_writen += write_decimal(fmt);
-	else if (ft_strchr("cs%", fmt->specifier))
+	else if (ft_strchr("csCS%", fmt->specifier))
 		*len_writen += write_str(fmt);
 //    else if (ft_strchr("cC", fmt->specifier))
 //        return ;
 //    else if (ft_strchr("sS", fmt->specifier))
 //        return ;
-	if (ft_strchr("diuUDoxOXp%c", fmt->specifier))
-		del = fmt->str;
 	free(del);
 	return (*len_writen);
 }
@@ -231,7 +229,7 @@ size_t combination(char *str, t_fmt *fmt)
     fmt->width = get_width(del);
     fmt->precision = get_pression(str);
     fmt->modifier = (unsigned char)find_conversion(del);
-	fmt->specifier == 'c' || fmt->specifier == '%' ? fmt->str = ft_strnew(1) : 0;
+	ft_strchr("cC%", fmt->specifier) ? fmt->str = ft_strnew(1) : 0;
     free(del);
 	return (index);
 //    return (fmt->specifier != 127 ? compile_specifier_and_modifier(p, *fmt) : 0);
