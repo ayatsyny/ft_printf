@@ -29,29 +29,50 @@ int	ft_switch(t_fmt *fmt, int *len_writen) {
 	return (*len_writen);
 }
 
-unsigned     get_width(char *format)
+// new version
+unsigned    get_width(char *format)
 {
-    int len;
-    char *num;
-    int number;
+    int      i;
+    unsigned num;
 
-    num = NULL;
-    len = (int)ft_strlen(format);
-    while (--len >= 0)
-        if (ft_isdigit(format[len]))
-        {
-            while (--len >= 0 && ft_isdigit(format[len]))
-				;
-			len = len < 0 ? 0 : len;
-			if (format[len] != '.')
-			{
-				num = format + len + (format[len] == '#' ? 1 : 0);
-				break ;
-			}
-        }
-	number = num != NULL ? ft_atoi(num) : 0;
-    return (number < 0 ? -((unsigned)number) : (unsigned)number);
+    i = -1;
+    num = 0;
+    while (format[++i])
+    {
+        if (format[i] < '1' && format[i] > '9')
+            continue ;
+        if (format[i - 1] == '.')
+            continue ;
+        num = (unsigned)ft_atoi(format);
+    }
+    return (num);
 }
+
+//old version
+//
+//unsigned     get_width(char *format)
+//{
+//    int len;
+//    char *num;
+//    int number;
+//
+//    num = NULL;
+//    len = (int)ft_strlen(format);
+//    while (--len >= 0)
+//        if (ft_isdigit(format[len]))
+//        {
+//            while (--len >= 0 && ft_isdigit(format[len]))
+//				;
+//			len = len < 0 ? 0 : len;
+//			if (format[len] != '.')
+//			{
+//				num = format + len + (format[len] == '#' ? 1 : 0);
+//				break ;
+//			}
+//        }
+//	number = num != NULL ? ft_atoi(num) : 0;
+//    return (number < 0 ? -((unsigned)number) : (unsigned)number);
+//}
 
 int		end_format(char	*format, t_fmt *fmt)
 {
@@ -215,12 +236,10 @@ int     ft_printf(const char *format, ...)
 size_t combination(char *str, t_fmt *fmt)
 {
     char *del;
-    int len;
 	size_t index = 0;
 	//char *tmp;
 
     del = str;
-    len = (int)ft_strlen(str);
     //ft_clear(fmt);
 	//tmp = ft_strchr(CONVERSION, str[len - 1]);
     //fmt->specifier = tmp != NULL ? str[len - 1] : '=';
