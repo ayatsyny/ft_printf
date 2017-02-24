@@ -12,6 +12,10 @@ static void clear_flag_in_center_str(t_fmt *fmt, size_t str_len)
 		fmt->str[str_len + 1] = '0';
 		fmt->str[1] = fmt->specifier;
 	}
+//	else if (fmt->specifier == 'p')
+//	{
+//
+//	}
 	else
 	{
 //		tmp = fmt->str[0];
@@ -23,16 +27,57 @@ static void clear_flag_in_center_str(t_fmt *fmt, size_t str_len)
 	}
 }
 
+//void	generate_prex(t_fmt *fmt)
+//{
+//	char *del;
+//	char *str_zero;
+//
+//	ft_strlowcase(fmt->str);
+//	del = fmt->str;
+//	if (ft_strlen(fmt->str) > 1)
+//	{
+//
+//		fmt->str = ft_strjoin("0x", fmt->str);
+//	}
+//	else
+//		fmt->str = ft_strjoin(fmt->str, "x");
+//	free(del);
+//
+//}
+
+void	write_point(t_fmt *fmt)
+{
+	char *s;
+	int res;
+
+
+	s = fmt->str;
+//	res = ft_strlen(s) >
+//	if (ft_strchr(fmt->str, ' '))
+//		f = 2;
+	while (s && *s && *s == ' ')
+		write(1, s++, 1);
+	ft_putstr("0x");
+	ft_putstr(s);
+}
+
 int	write_decimal(t_fmt *fmt)
 {
+//	fmt->specifier == 'p' ? generate_prex(fmt) : 0;
 	fmt->precision < 0 ? fmt->precision = 0 : calc_pression(fmt);
 	if (fmt->str[0] != '-' && (fmt->flag_first != '=' || fmt->flag_second != '='))
 		calc_flags(fmt);
 	if (fmt->width)
 		calc_width(fmt);
-    if (fmt->specifier == 'x')
+    if (fmt->specifier == 'x' || fmt->specifier == 'p')
 		ft_strlowcase(fmt->str);
-	ft_putstr(fmt->str);
+	if (fmt->specifier == 'p')
+	{
+		write_point(fmt);
+		return ((int)ft_strlen(fmt->str) + 2);
+	}
+	else
+		ft_putstr(fmt->str);
 	return ((int)ft_strlen(fmt->str));
 }
 
@@ -98,7 +143,8 @@ void calc_width(t_fmt *fmt)
 	sing = fmt->flag_first == '0' ^ fmt->precision > 0 ? fmt->flag_first : ' ';
 	sing = sing == '0' ? sing : ' ';
 	cnt = ft_strchr("+ #", fmt->flag_second) || fmt->str[0] == '-' ? 1 : 0;
-	if ((elem = fmt->width - (int)ft_strlen(fmt->str)) > 0)
+	if ((elem = fmt->width - (int)ft_strlen(fmt->str) -
+						(fmt->specifier == 'p' ? 2 : 0)) > 0)
 	{
 		del[0] = ft_memset(ft_strnew(elem), sing, elem);
 		del[1] = fmt->str;
@@ -125,20 +171,22 @@ void	calc_pression(t_fmt *fmt)
 	sing = fmt->str[0] == '-' && !ft_strchr("scSC", fmt->specifier) ? 1 : 0;
 	elem = (int)(fmt->precision + sing - ft_strlen(fmt->str));
     if (ft_strequ(fmt->str, "0") && !fmt->precision)
-        ft_strclr(fmt->str);
+		ft_strclr(fmt->str);
 	else if (elem > 0)
 	{
 		del[0] = (char *)ft_memset(ft_strnew(elem), '0', elem);
 		del[1] = fmt->str;
 		fmt->str = ft_strjoin(del[0], fmt->str);
 	}
-	if (fmt->str[0] == '-' || ft_strchr(fmt->str, '-'))
+	if (del[0] && ft_strchr(fmt->str, '-'))
 		clear_flag_in_center_str(fmt, ft_strlen(del[0]));
 	ft_memdel((void **) &del);
 }
 
 void 	calc_pression_str(t_fmt *fmt)
 {
-	if (fmt->precision > 0)
+	if (!fmt->precision && ft_strchr("sS", fmt->specifier))
+		fmt->str = "\0";
+	else if (fmt->precision > 0 && ft_strchr("sS", fmt->specifier))
 		fmt->str = ft_strsub(fmt->str, 0, (size_t)fmt->precision);
 }

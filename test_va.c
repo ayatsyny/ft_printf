@@ -44,7 +44,20 @@ int main(void)
 {
 		//var("%d", "548");
 		int a = 10;
-	
+
+		printf("%.0p, %.p\n", 0, 0);
+		printf("[%.5p]\n", 0);
+		printf("[%9p]\n", 1234);
+		printf("[%9.2p]\n", 1234);
+		printf("[%9p]\n", 1234567);
+		printf("[%9.2p]\n", 1234567);
+		printf("[%2p]\n", 1234);
+		printf("[%2.9p]\n", 1234);
+		printf("[%2p]\n", 1234567);
+		printf("[%2.9p]\n", 1234567);
+		printf("finished in point\n");
+
+
 		printf("test_str [%d]\n", strlen("aaa"));	
 	printf("[%-+.10d]\n", 6546);
 		printf("[%010.d]\n", 4555);

@@ -13,10 +13,11 @@
 #include <ctype.h>
 #include "libftprintf.h"
 
-int	ft_switch(t_fmt *fmt, int *len_writen) {
+int	ft_switch(t_fmt *fmt, int *len_writen)
+{
 	char *del;
 
-	del = fmt->str;
+	del = NULL;
 	if (ft_strchr("diuUDoxOXp", fmt->specifier))
 		*len_writen += write_decimal(fmt);
 	else if (ft_strchr("csCS%", fmt->specifier))
@@ -25,6 +26,8 @@ int	ft_switch(t_fmt *fmt, int *len_writen) {
 //        return ;
 //    else if (ft_strchr("sS", fmt->specifier))
 //        return ;
+	if (ft_strchr("diuUDoxOXp%cCS", fmt->specifier))
+		del = fmt->str;
 	free(del);
 	return (*len_writen);
 }
@@ -33,17 +36,29 @@ int	ft_switch(t_fmt *fmt, int *len_writen) {
 unsigned    get_width(char *format)
 {
     int      i;
+	int		 j;
     unsigned num;
 
     i = -1;
     num = 0;
     while (format[++i])
     {
-        if (format[i] < '1' && format[i] > '9')
-            continue ;
-        if (format[i - 1] == '.')
-            continue ;
-        num = (unsigned)ft_atoi(format);
+        if (!(format[i] >= '1' && format[i] <= '9'))
+			continue ;
+		if (format[i - 1] == '.')
+		{
+			while (format[i] >= '0' && format[i] <= '9')
+				i++;
+			continue ;
+		}
+		j = i;
+		while (format[j] && format[j] >= '0' && format[j] <= '9')
+			j++;
+		if (i < j)
+		{
+			num = (unsigned) ft_atoi(format + i);
+			i = j;
+		}
     }
     return (num);
 }

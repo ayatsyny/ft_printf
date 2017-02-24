@@ -57,6 +57,8 @@ void		calc_pression(t_fmt *fmt);
 void    	calc_flags(t_fmt *fmt);
 void		calc_width(t_fmt *fmt);
 
+void		write_point(t_fmt *fmt);
+
 /*
 **  write str and letter functions
 */

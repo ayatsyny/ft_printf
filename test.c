@@ -53,9 +53,9 @@ int main(void)
 //		ft_printf("%zu, %zu", 0, ULLONG_MAX);
 //		ft_printf("{%03c}", 0);
 	const char A[] = "this is tEEEEst!";
-        printf("\nint printf [%d] \n", printf("|%5.3s|\t\t|%3.5s|\t|%7s|\t|%7.3s|",A, A,A,NULL));
+        printf("\nint printf [%d] \n", printf("{%3c}", 0));
 		printf("\n");
-		printf("\nint ft_printf [%d] \n", ft_printf("|%5.3s|\t\t|%3.5s|\t|%7s|\t|%7.3s|",A, A,A,NULL));
+		printf("\nint ft_printf [%d] \n", ft_printf("{%3c}", 0));
 
 //		printf("%p\n", -023);
 //		printf("%x\n", -023);
