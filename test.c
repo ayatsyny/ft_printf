@@ -19,6 +19,21 @@
 #include <stdlib.h>
 
 
+#define RED "\x1b[31m"
+#define NORM "\x1b[0m"
+
+#define	PTR
+
+//Testing macro - dont change!
+#define PRINTF(...){\
+	    int ret = 0,ret2 = 0;\
+		printf("Origin:\t");ret = printf(__VA_ARGS__);\
+	    printf("\tret: %d\n",ret);fflush(stdout);\
+	    ft_printf("    Ft:\t");ret2 = ft_printf(__VA_ARGS__);\
+	    ft_printf("\t%sret: %d"NORM"\n",(ret == ret2) ? NORM : RED, ret2);\
+}
+#define TITLE(...){printf("\033[1m\n");printf(__VA_ARGS__);printf("\n\033[0m");}
+
 /*
 void var(char *format, ...)
 {
@@ -53,9 +68,22 @@ int main(void)
 //		ft_printf("%zu, %zu", 0, ULLONG_MAX);
 //		ft_printf("{%03c}", 0);
 	const char A[] = "this is tEEEEst!";
-        printf("\nint printf [%d] \n", printf("%#o", 0));
-		printf("\n");
-		printf("\nint ft_printf [%d] \n", ft_printf("%#o", 0));
+#ifdef PTR
+	TITLE("Pointer options(field width, presicioin and justification):\n");
+	{
+		char *ptr_c = (char*)malloc(sizeof(char));
+		int ptr_i = 43;
+		long ptr_l = 874748;
+//		PRINTF("|%.0p|\t\t|%6p|\t\t|%6.p|\t|%10.6p|", NULL,NULL,NULL,NULL);
+		PRINTF("|%12p||%17p|\t|%-22p|", ptr_c, &ptr_i, &ptr_l);
+		PRINTF("\tOr:\t|%.0p||%6p|\t|%6.p||%.20p|", &ptr_l, &ptr_l, &ptr_l,&ptr_l);
+		free(ptr_c);
+	}
+#endif
+
+//        printf("\nint printf [%d] \n", printf("%#o", 0));
+//		printf("\n");
+//		printf("\nint ft_printf [%d] \n", ft_printf("%#o", 0));
 
 //		printf("%p\n", -023);
 //		printf("%x\n", -023);

@@ -51,8 +51,10 @@ void    compile_specifier_and_modifier(va_list *ap, t_fmt *fmt)
 {
     if (ft_strchr("diD", fmt->specifier))
 		fmt->str = ft_itoa_base(convert_di(ap, *fmt), fmt->specifier);
-	else if(ft_strchr("puoxXUO", fmt->specifier))
+	else if(ft_strchr("uoxXUO", fmt->specifier))
 		fmt->str = ft_itoa_base2(convert_ox(ap, *fmt), fmt->specifier);
+	else if(fmt->specifier == 'p')
+		fmt->str = ft_itoa_base2(va_arg(*ap, uintmax_t), fmt->specifier);
 	else if (ft_strchr("scC%", fmt->specifier))
 	{
 		fmt->specifier == 'c' ? fmt->str[0] = (char)va_arg(*ap, int) : 0;

@@ -79,14 +79,14 @@ int	main(void)
 	PRINTF("|%s|", NULL);
 	PRINTF("|%s|", "ПрэвЭд!");
 	PRINTF("|%s|\t","ç±³");
-	TITLE("String options(field width, presicion and justification):\n");
-	{
-	const char A[] = "this is tEEEEst!";
-	PRINTF("|%5.3s|\t\t|%3.5s|\t|%7s|\t|%7.3s|",A, A,A,NULL);
-	PRINTF("|%07.5s|\t|%02.5s|\t|%.10s|\t\t|%.5s|\t",A,A,A, "");
-	PRINTF("|%-7.5s|\t|%-2.5s|\t|%-.10s|\t\t|%-.5s|\t",A,A,A, "");
-	PRINTF("|%-07.5s|\t|%-02.5s|\t|%-020s|\t|%-0.5s|\t",A,A,A, "");
-	}
+//	TITLE("String options(field width, presicion and justification):\n");
+//	{
+//	const char A[] = "this is tEEEEst!";
+//	PRINTF("|%5.3s|\t\t|%3.5s|\t|%7s|\t|%7.3s|",A, A,A,NULL);
+//	PRINTF("|%07.5s|\t|%02.5s|\t|%.10s|\t\t|%.5s|\t",A,A,A, "");
+//	PRINTF("|%-7.5s|\t|%-2.5s|\t|%-.10s|\t\t|%-.5s|\t",A,A,A, "");
+//	PRINTF("|%-07.5s|\t|%-02.5s|\t|%-020s|\t|%-0.5s|\t",A,A,A, "");
+//	}
 #endif
 
 #ifdef WSTR

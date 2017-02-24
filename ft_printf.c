@@ -18,7 +18,7 @@ int	ft_switch(t_fmt *fmt, int *len_writen)
 	char *del;
 
 	del = NULL;
-	if (ft_strchr("diuUDoxOXp", fmt->specifier))
+	if (ft_strchr("pdiuUDoxOX", fmt->specifier))
 		*len_writen += write_decimal(fmt);
 	else if (ft_strchr("csCS%", fmt->specifier))
 		*len_writen += write_str(fmt);
