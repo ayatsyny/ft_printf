@@ -119,7 +119,8 @@ void    calc_flags(t_fmt *fmt)
 	if (fmt->flag_second == '#' && ft_strchr("xX", fmt->specifier) &&
 			!ft_strequ(fmt->str, "0") && fmt->str[0] != '\0')
 		ft_strncpy(flag_buff, "0X", 2);
-	else if (fmt->flag_second == '#' && ft_strchr("oO", fmt->specifier))
+	else if (fmt->flag_second == '#' && ft_strchr("oO", fmt->specifier) &&
+			ft_strlen(fmt->str) != 1)
 		flag_buff[0] = '0';
 	else if (ft_strchr("uU", fmt->specifier))
 		return ;

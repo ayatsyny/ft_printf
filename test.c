@@ -53,9 +53,9 @@ int main(void)
 //		ft_printf("%zu, %zu", 0, ULLONG_MAX);
 //		ft_printf("{%03c}", 0);
 	const char A[] = "this is tEEEEst!";
-        printf("\nint printf [%d] \n", printf("{%3c}", 0));
+        printf("\nint printf [%d] \n", printf("%#o", 0));
 		printf("\n");
-		printf("\nint ft_printf [%d] \n", ft_printf("{%3c}", 0));
+		printf("\nint ft_printf [%d] \n", ft_printf("%#o", 0));
 
 //		printf("%p\n", -023);
 //		printf("%x\n", -023);
