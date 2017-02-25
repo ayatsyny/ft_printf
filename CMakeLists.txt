@@ -12,6 +12,9 @@ set(SOURCE_FILES
         itoa_base.c
         specifier_and_modifier.c
         convert_to_char.c
+        write_specifacator_ox.c
+        write_specifacator_cs.c
+#        printf_main.c
 #        clear_char_mas.c.c
         #libft/libft.a
         libftprintf.h)

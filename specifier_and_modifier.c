@@ -66,5 +66,5 @@ void    compile_specifier_and_modifier(va_list *ap, t_fmt *fmt)
 	}
 	else if (fmt->specifier == 'S')
 		fmt->str = covert_to_char(va_arg(*ap, wchar_t*));
-
+//	fmt->len = ft_atoi(fmt->str);
 }

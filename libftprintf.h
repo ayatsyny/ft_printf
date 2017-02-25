@@ -27,6 +27,7 @@ typedef struct	s_fmt
 	int	        	precision;
 	unsigned char	modifier;
 	char			specifier;
+	char 			precision_flag;
     char    		*str;
 }				t_fmt;
 
@@ -35,9 +36,9 @@ t_fmt		*ft_clear(t_fmt *data);
 size_t		combination(char *str, t_fmt *fmt);
 char		find_conversion(char *format);
 void		find_flags(char *format, t_fmt *data);
-int         get_pression(char *format);
+int         get_pression(char *format, t_fmt *fmt);
 int			check_flag_zero(char *format);
-unsigned	get_width(char *format);
+unsigned	get_width(char *format, t_fmt fmt);
 void		compile_specifier_and_modifier(va_list *ap, t_fmt *fmt);
 int			ft_switch(t_fmt *fmt, int *len_writen);
 int 		end_format(char	*format, t_fmt *fmt);
@@ -68,6 +69,17 @@ void	cal_letter(t_fmt *fmt);
 void	calc_pression_str(t_fmt *fmt);
 
 /*
+**  write numbers 8 and 16 chislinj functions
+*/
+int		write_num_in_ox(t_fmt *fmt);
+void    calc_flags_int_ox(t_fmt *fmt);
+void	calc_width_in_ox(t_fmt *fmt);
+void	calc_pression_in_ox(t_fmt *fmt, int add_len);
+
+
+
+
+/*
 ** clear data chars in matrix
 */
 
@@ -75,5 +87,6 @@ void	calc_pression_str(t_fmt *fmt);
 //void    del_char_data(char  *point, unsigned elem);
 
 char *covert_to_char(wchar_t *str);
+void clear_flag_in_center_str(t_fmt *fmt, size_t str_len);
 
 # endif

@@ -20,7 +20,9 @@ SRC = ft_printf.c \
       specifier_and_modifier.c \
       write_console.c \
       itoa_base.c \
-      convert_to_char.c
+      convert_to_char.c \
+      write_specifacator_ox.c \
+      write_specifacator_cs.c
 
 HDR = ft_printf.h
 

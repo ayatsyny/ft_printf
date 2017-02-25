@@ -18,8 +18,10 @@ int	ft_switch(t_fmt *fmt, int *len_writen)
 	char *del;
 
 	del = NULL;
-	if (ft_strchr("pdiuUDoxOX", fmt->specifier))
+	if (ft_strchr("pdiuUD", fmt->specifier))
 		*len_writen += write_decimal(fmt);
+	else if (ft_strchr("oxOX", fmt->specifier))
+		*len_writen += write_num_in_ox(fmt);
 	else if (ft_strchr("csCS%", fmt->specifier))
 		*len_writen += write_str(fmt);
 //    else if (ft_strchr("cC", fmt->specifier))
@@ -33,7 +35,7 @@ int	ft_switch(t_fmt *fmt, int *len_writen)
 }
 
 // new version
-unsigned    get_width(char *format)
+unsigned    get_width(char *format, t_fmt fmt)
 {
     int      i;
 	int		 j;
@@ -190,7 +192,7 @@ char		find_conversion(char *format)
     return (0);
 }
 
-int get_pression(char *format)
+int get_pression(char *format, t_fmt *fmt)
 {
     char *tmp;
     int num;
@@ -199,8 +201,11 @@ int get_pression(char *format)
     //num = 0;
 	i = 0;
     if ((tmp = ft_strrchr(format, '.')))
+	{
+		*(tmp + 1) == '-' ? (fmt->precision_flag = '-') : 0;
 		while (*(tmp + i) && !ft_strchr("123456789", tmp[i]))
 			i++;
+	}
 	else
         return (-1);
     num = ft_atoi(tmp + i);
@@ -215,6 +220,9 @@ t_fmt *ft_clear(t_fmt *data)
 	data->precision = -1;
 	data->modifier = 0;
 	data->specifier = '=';
+	data->precision_flag = 0;
+	//data->res = 0;
+//	data->len = 0;
 	data->str = NULL;
 	return (data);
 }
@@ -260,8 +268,8 @@ size_t combination(char *str, t_fmt *fmt)
     //fmt->specifier = tmp != NULL ? str[len - 1] : '=';
 	//index = fmt->specifier != '=' ? (size_t)(str - tmp) : 0;
     find_flags(del,  fmt);
-    fmt->width = get_width(del);
-    fmt->precision = get_pression(str);
+	fmt->precision = get_pression(str, fmt);
+    fmt->width = get_width(del, *fmt);
     fmt->modifier = (unsigned char)find_conversion(del);
 	ft_strchr("cC%", fmt->specifier) ? fmt->str = ft_strnew(1) : 0;
     free(del);

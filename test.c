@@ -68,23 +68,54 @@ int main(void)
 //		ft_printf("%zu, %zu", 0, ULLONG_MAX);
 //		ft_printf("{%03c}", 0);
 	const char A[] = "this is tEEEEst!";
-#ifdef PTR
-	TITLE("Pointer options(field width, presicioin and justification):\n");
-	{
-		char *ptr_c = (char*)malloc(sizeof(char));
-		int ptr_i = 43;
-		long ptr_l = 874748;
+//#ifdef PTR
+//	TITLE("Pointer options(field width, presicioin and justification):\n");
+//	{
+//		char *ptr_c = (char*)malloc(sizeof(char));
+//		int ptr_i = 43;
+//		long ptr_l = 874748;
 //		PRINTF("|%.0p|\t\t|%6p|\t\t|%6.p|\t|%10.6p|", NULL,NULL,NULL,NULL);
-		PRINTF("|%12p||%17p|\t|%-22p|", ptr_c, &ptr_i, &ptr_l);
-		PRINTF("\tOr:\t|%.0p||%6p|\t|%6.p||%.20p|", &ptr_l, &ptr_l, &ptr_l,&ptr_l);
-		free(ptr_c);
-	}
-#endif
+//		PRINTF("|%12p||%17p|\t|%-22p|", ptr_c, &ptr_i, &ptr_l);
+//		PRINTF("\tOr:\t|%.0p||%6p|\t|%6.p||%.20p|", &ptr_l, &ptr_l, &ptr_l,&ptr_l);
+//		free(ptr_c);
+//	}
+//#endif
 
-//        printf("\nint printf [%d] \n", printf("%#o", 0));
+
+//		int nmb = 42;
+//		#define CNV "o"
+//		printf("\n   |"CNV"|:\n");
+//		PRINTF("|%-11-0"CNV"|\t|%-0+11"CNV"|\t|%11+"CNV"|\t|%-11+"CNV"|\t|%0 "CNV"|\t",nmb,nmb,nmb,nmb,nmb);nmb *= -1;
+//		PRINTF("|%-11-0"CNV"|\t|%-0+11"CNV"|\t|%11+"CNV"|\t|%-11+"CNV"|\t|%0 "CNV"|",nmb,nmb,nmb,nmb,nmb);nmb *= -1;
+
+//	TITLE("Number options(field width, presicion and -):\n");
+	{
+		int nmb = 25;
+		#define CNV "x"
+//		printf("\n   |"CNV"|:\n");
+//		PRINTF("|%1.1"CNV"|\t\t|%5.1"CNV"|\t\t|%5.3"CNV"|\t\t|%1.5"CNV"|\t",nmb, nmb, nmb, nmb);
+//		PRINTF("|%1.1"CNV"|\t\t|%5.1"CNV"|\t\t|%5.3"CNV"|\t\t|%1.5"CNV"|",-nmb, -nmb, -nmb, -nmb);
+//		PRINTF("|%07.5"CNV"|", -nmb);
+//		PRINTF("|%3.5"CNV"|\t\t|%3.5"CNV"|\t|%07.5"CNV"|\t|%07.5"CNV"|",nmb, -nmb, nmb, -nmb);
+//		PRINTF("|%8.5"CNV"|\t|%8.5"CNV"|\t|%08"CNV"|\t|%08"CNV"|",nmb, -nmb, nmb, -nmb);
+//		PRINTF("|%-.10"CNV"|\t|%.-10"CNV"|\t|%-15.-10"CNV"|\t|%15.-10"CNV"|",42,42,42,42);
+//		PRINTF("|%-12.8.5"CNV"|\t|%12.-8.5"CNV"|\t|%-12.-8.5"CNV"|\t|%-12.-8.-5"CNV"|\t",42,42,42,42);
+//		PRINTF("|%7-.5"CNV"|\t|%-7-.5"CNV"|\t|%7.5-"CNV"|\t|%-7.-5-"CNV"|\t", 42,42,42,42);
+//		PRINTF("|%12.8.10.6"CNV"|\t|%20.8.-12.6"CNV"|\t|%20.8.12.-6"CNV"||%20.-5.12.3"CNV"|\t|%10.8.12.6-"CNV"|",42,42,42,42,42);
+//		PRINTF("|%."CNV" %.0"CNV" %0."CNV" %0.0"CNV"|\t\t|%"CNV" %.2"CNV" %2."CNV" %2.2"CNV"|\t\t\t\t",0,0,0,0,0,0,0,0);
+
+//		PRINTF("|%#.3"CNV"|", 0);
+//		printf("\nint printf [%d] \n", printf("@moulitest: %#.o %#.0o", 0, 0));
 //		printf("\n");
-//		printf("\nint ft_printf [%d] \n", ft_printf("%#o", 0));
+//		printf("\nint ft_printf [%d] \n", ft_printf("@moulitest: %#.o %#.0o", 0, 0));
 
+//	PRINTF("|%-13.-9#"CNV"|", 25);
+
+	printf("\nint printf [%d] \n", printf("@main_ftprintf: %####0000 33..1..#00d\n", 256));
+	printf("\n");
+	printf("\nint ft_printf [%d] \n", ft_printf("@main_ftprintf: %####0000 33..1..#00d\n", 256));
+	}
+//	}
 //		printf("%p\n", -023);
 //		printf("%x\n", -023);
 //		printf("%03.2d\n", 1);

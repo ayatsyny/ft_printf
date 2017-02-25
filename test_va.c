@@ -45,6 +45,18 @@ int main(void)
 		//var("%d", "548");
 		int a = 10;
 
+	printf(":%s:\n", "Hello, world!");
+	printf(":%15s:\n", "Hello, world!");
+	printf(":%.10s:\n", "Hello, world!");
+	printf(":%-10s:\n", "Hello, world!");
+	printf(":%-15s:\n", "Hello, world!");
+	printf(":%.15s:\n", "Hello, world!");
+	printf(":%15.10s:\n", "Hello, world!");
+	printf(":%-15.10s:\n", "Hello, world!");
+
+	printf(":% 10.10s:\n", "Hello, world!");
+	printf(":%-020.10s:\n", "Hello, world!");
+
 		printf("%.0p, %.p\n", 0, 0);
 		printf("[%.5p]\n", 0);
 		printf("[%9p]\n", 1234);

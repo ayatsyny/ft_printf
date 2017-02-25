@@ -47,7 +47,7 @@
 #define	NUM			//aka numbers
 #define	PTR			//aka pointers
 #define	STRANGE		//aka undefined tests
-#define STR			//aka strings
+//#define STR			//aka strings
 #define WSTR		//aka wide strings
 #define	LENGTH		//aka hh, h, l ,ll , z, j
 
