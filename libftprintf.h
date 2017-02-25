@@ -15,6 +15,7 @@
 //# define FLAGS "-+0# "    //	!!!! warning priopity very importent
 //# define MODIFIER "hljz" //	!!!! warning priopity very importent
 # define CONVERSION "pdiuoxcsDUOXCS%"
+#define min_zero(x) (x < 0 ? 1 : 0)
 #include <stdarg.h>
 #include <stdint.h>
 #include "libft/libft.h"
@@ -58,7 +59,7 @@ void		calc_pression(t_fmt *fmt);
 void    	calc_flags(t_fmt *fmt);
 void		calc_width(t_fmt *fmt);
 
-void		write_point(t_fmt *fmt);
+int			write_point(t_fmt *fmt);
 
 /*
 **  write str and letter functions

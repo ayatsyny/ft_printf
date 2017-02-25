@@ -4,21 +4,23 @@
 
 #include "libftprintf.h"
 
-int	write_num_in_ox(t_fmt *fmt)
+static int costily_for_zero(t_fmt *fmt)
 {
-	int add_len;
-
-	add_len = 0;
 	if (fmt->flag_second == '#' && ft_strchr("xX", fmt->specifier))
 	{
 		if (ft_atoi(fmt->str) == 0)
-			add_len = 0;
+			return (0);
 		else if (fmt->precision_flag)
-			add_len = 2;
+			return (2);
 	}
 	if (fmt->flag_second == '#' && ft_strchr("oO", fmt->specifier))
-		add_len = 1;
-	fmt->precision < 0 ? fmt->precision = 0 : calc_pression_in_ox(fmt, add_len);
+		return (1);
+	return (0);
+}
+
+int	write_num_in_ox(t_fmt *fmt)
+{
+	fmt->precision > -1 ? calc_pression_in_ox(fmt, costily_for_zero(fmt)) : 0;
 	fmt->flag_first != '=' || fmt->flag_second != '=' ? calc_flags_int_ox(fmt) : 0;
 	fmt->width ? calc_width_in_ox(fmt) : 0;
     fmt->specifier == 'x' ? ft_strlowcase(fmt->str) : 0;
@@ -36,12 +38,11 @@ void    calc_flags_int_ox(t_fmt *fmt)
 			ft_atoi(fmt->str) != 0)
 		ft_strncpy(flag_buff, "0X", 2);
 	else if (fmt->flag_second == '#' && ft_strchr("oO", fmt->specifier) &&
-			ft_strlen(fmt->str) != 1)
+			(ft_atoi(fmt->str) != 0 || fmt->precision > -1))
 		flag_buff[0] = '0';
 	del = fmt->str;
 	fmt->str = ft_strjoin(flag_buff, fmt->str);
-	if (fmt->specifier != 's')
-		free(del);
+	free(del);
 }
 
 void calc_width_in_ox(t_fmt *fmt)
@@ -80,7 +81,7 @@ void	calc_pression_in_ox(t_fmt *fmt, int add_len)
 
 	del[0] = NULL;
 	del[1] = NULL;
-	elem = (int)(fmt->precision - (ft_strlen(fmt->str) + add_len));
+	elem = (int)(fmt->precision + min_zero(fmt->precision) - (ft_strlen(fmt->str) + add_len));
     if (ft_strequ(fmt->str, "0") && !fmt->precision)
 		ft_strclr(fmt->str);
 	else if (elem > 0 && fmt->precision_flag)
