@@ -10,19 +10,21 @@ static intmax_t		convert_di(va_list *ap, t_fmt fmt)
 
 	num = va_arg(*ap, intmax_t);
 	if (fmt.modifier == 'z')
-		num = (size_t)num;
+		return ((size_t)num);
 	else if (fmt.modifier == 'l' << 1)
-		num = (long long)num;
+		return ((long long)num);
 	else if (fmt.modifier == 'l' || fmt.specifier == 'D')
-		num = (long)num;
+		return ((long)num);
+//	else if (fmt.modifier == 'h')
+//		return ((short)(va_arg(*ap, int)));
 	else if (fmt.modifier == 'h')
-		num = (short)num;
+		return ((short)num);
 	else if (fmt.modifier == 'h' << 1)
-		num = (signed char)num;
+		return ((signed char)num);
 //	else if (fmt.modifier == 'j')
 //		num = (size_t)num;
 	else if (!fmt.modifier)
-		num = (int)num;
+		return ((int)num);
 	return (num);
 }
 static uintmax_t convert_ox(va_list *ap, t_fmt fmt)
@@ -31,19 +33,21 @@ static uintmax_t convert_ox(va_list *ap, t_fmt fmt)
 
 	num = va_arg(*ap, uintmax_t);
 	if (fmt.modifier == 'z')
-		num = (size_t)num;
+		return ((size_t)num);
 	else if (fmt.modifier == 'l' << 1)
-		num = (unsigned long long)num;
+		return ((unsigned long long)num);
 	else if (fmt.modifier == 'l' || ft_strchr("OU", fmt.specifier))
-		num = (unsigned long)num;
+		return ((unsigned long)num);
+//	else if (fmt.modifier == 'h')
+//		return ((unsigned short int)(va_arg(*ap, unsigned)));
 	else if (fmt.modifier == 'h')
-		num = (unsigned short)num;
+		return ((unsigned short)num);
 	else if (fmt.modifier == 'h' << 1)
-		num = (unsigned char)num;
+		return ((unsigned char)num);
 //	else if (fmt.modifier == 'j')
 //		num = (uintmax_t)num;
 	else if (!fmt.modifier)
-		num = (unsigned)num;
+		return ((unsigned)num);
 	return (num);
 }
 

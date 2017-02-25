@@ -91,7 +91,7 @@ int main(void)
 //	TITLE("Number options(field width, presicion and -):\n");
 	{
 //		int nmb = 25;
-//		#define CNV "o"
+		#define CNV "i"
 //		printf("\n   |"CNV"|:\n");
 //		PRINTF("|%1.1"CNV"|\t\t|%5.1"CNV"|\t\t|%5.3"CNV"|\t\t|%1.5"CNV"|\t",nmb, nmb, nmb, nmb);
 //		PRINTF("|%1.1"CNV"|\t\t|%5.1"CNV"|\t\t|%5.3"CNV"|\t\t|%1.5"CNV"|",-nmb, -nmb, -nmb, -nmb);
@@ -109,11 +109,11 @@ int main(void)
 //		printf("\n");
 //		printf("\nint ft_printf [%d] \n", ft_printf("@moulitest: %#.o %#.0o", 0, 0));
 
-//	PRINTF("|%#"CNV"|", 0);
+	PRINTF("|%5h h"CNV"|", SHRT_MIN);
 
-	printf("\nint printf [%d] \n", printf("%#o", 0));
-	printf("\n");
-	printf("\nint ft_printf [%d] \n", ft_printf("%#o", 0));
+//	printf("\nint printf [%d] \n", printf("%#o", 0));
+//	printf("\n");
+//	printf("\nint ft_printf [%d] \n", ft_printf("%#o", 0));
 	}
 //	}
 //		printf("%p\n", -023);
