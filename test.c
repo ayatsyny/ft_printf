@@ -105,9 +105,9 @@ int main(void)
 //		PRINTF("|%."CNV" %.0"CNV" %0."CNV" %0.0"CNV"|\t\t|%"CNV" %.2"CNV" %2."CNV" %2.2"CNV"|\t\t\t\t",0,0,0,0,0,0,0,0);
 
 //		PRINTF("|%#.3"CNV"|", 0);
-//		printf("\nint printf [%d] \n", printf("@moulitest: %#.o %#.0o", 0, 0));
-//		printf("\n");
-//		printf("\nint ft_printf [%d] \n", ft_printf("@moulitest: %#.o %#.0o", 0, 0));
+		printf("\nint printf [%d] \n", printf("%.2s is a string", "this"));
+		printf("\n");
+		printf("\nint ft_printf [%d] \n", ft_printf("%.2s is a string", "this"));
 
 //	PRINTF("|%5h h"CNV"|", SHRT_MIN);
 
@@ -115,11 +115,11 @@ int main(void)
 //	printf("\n");
 //	printf("\nint ft_printf [%d] \n", ft_printf("% h"));
 
-	printf("%5hhi\n", SHRT_MIN);
-	ft_printf("%5hhi\n", SHRT_MIN);
+//	printf("%s %s %s %s\n", "this", "is", "a", "multi");
+//	ft_printf("%s %s %s %s\n", "this", "is", "a", "multi");
 
-	printf("%5h.10hi\n", SHRT_MIN);
-	ft_printf("%5h.10hi\n", SHRT_MIN);
+//	printf("%5h.10hi\n", SHRT_MIN);
+//	ft_printf("%5h.10hi\n", SHRT_MIN);
 
 //		char str1 [11] = "0123345336789";
 //		// Набор символов, которые должны входить в искомый сегмент

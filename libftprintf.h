@@ -32,9 +32,10 @@ typedef struct	s_fmt
     char    		*str;
 }				t_fmt;
 
-int			ft_printf(const char *format, ...);
+int			ft_printf(const char *s, ...);
 t_fmt		*ft_clear(t_fmt *data);
-size_t		combination(char *str, t_fmt *fmt);
+//size_t		combination(char *str, t_fmt *fmt);
+void		combination(const char *str, t_fmt *fmt, size_t index);
 char		find_conversion(char *format);
 void		find_flags(char *format, t_fmt *data);
 int         get_pression(char *format, t_fmt *fmt);

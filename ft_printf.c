@@ -173,53 +173,44 @@ t_fmt *ft_clear(t_fmt *data)
 	return (data);
 }
 
-int     ft_printf(const char *format, ...)
+int     ft_printf(const char *s, ...)
 {
-    t_fmt	fmt;
-    va_list	ap;
-    int		read;
-    size_t	i;
-	int		end;
+	t_fmt	fmt;
+	va_list	ap;
+	size_t	i;
+	int		read;
 
-    read = 0;
-    va_start(ap, format);
-    while (*format)
-        if (*format == '%' && format++)
-        {
-            i = 0;
-            while (i < ft_strlen(format) && ft_strchr("-+0# hljz123456789.", format[i]))
+	read = 0;
+	va_start(ap, s);
+	while (*s)
+		if (*s == '%' && s++)
+		{
+			i = 0;
+			while (i < ft_strlen(s) && ft_strchr("-+0# hljz123456789.", s[i]))
 				i++;
-			ft_clear(&fmt);
-			end = end_format((char *)format, &fmt, i);
-			combination(ft_strncpy(ft_strnew(end), format, end), &fmt);
+			combination(s, &fmt, i);
 			compile_specifier_and_modifier(&ap, &fmt);
 			ft_switch(&fmt, &read);
-            format += (format[i]) ? end : i;
-        }
-        else
-			read += write(1, format++, 1);
+			s += s[i] ? ++i : i;
+		}
+		else
+			read += write(1, s++, 1);
 	va_end(ap);
-    return (read);
+	return (read);
 }
 
-size_t combination(char *str, t_fmt *fmt)
+void combination(const char *str, t_fmt *fmt, size_t index)
 {
-    char *del;
-	size_t index = 0;
-	//char *tmp;
+	char *copy_str;
 
-    del = str;
-    //ft_clear(fmt);
-	//tmp = ft_strchr(CONVERSION, str[len - 1]);
-    //fmt->specifier = tmp != NULL ? str[len - 1] : '=';
-	//index = fmt->specifier != '=' ? (size_t)(str - tmp) : 0;
-    find_flags(del,  fmt);
-	fmt->precision = get_pression(str, fmt);
-    fmt->width = get_width(del, *fmt);
-    fmt->modifier = (unsigned char)find_conversion(del);
+	ft_clear(fmt);
+	fmt->specifier = str[index] ? (unsigned char)str[index] : '=';
+	index++;
+	copy_str = ft_strsub(str, 0, index);
+	find_flags(copy_str,  fmt);
+	fmt->precision = get_pression(copy_str, fmt);
+	fmt->width = get_width(copy_str, *fmt);
+	fmt->modifier = (unsigned char)find_conversion(copy_str);
 	!ft_strchr("pdiuoxsDUOXS", fmt->specifier) ? fmt->str = ft_strnew(1) : 0;
-//	ft_strchr("cC%", fmt->specifier) ? fmt->str = ft_strnew(1) : 0;
-    free(del);
-	return (index);
-//    return (fmt->specifier != 127 ? compile_specifier_and_modifier(p, *fmt) : 0);
+	free(copy_str);
 }
