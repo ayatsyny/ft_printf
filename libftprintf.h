@@ -42,7 +42,7 @@ int			check_flag_zero(char *format);
 unsigned	get_width(char *format, t_fmt fmt);
 void		compile_specifier_and_modifier(va_list *ap, t_fmt *fmt);
 int			ft_switch(t_fmt *fmt, int *len_writen);
-int 		end_format(char	*format, t_fmt *fmt);
+int 		end_format(char	*format, t_fmt *fmt, size_t index);
 
 char    *ft_itoa_base(intmax_t value, char base_specifier);
 char    *ft_itoa_base2(uintmax_t value, char base_specifier);
@@ -66,7 +66,7 @@ int			write_point(t_fmt *fmt);
 */
 
 int		write_str(t_fmt *fmt);
-void	cal_letter(t_fmt *fmt);
+//void	cal_letter(t_fmt *fmt);
 void	calc_pression_str(t_fmt *fmt);
 
 /*

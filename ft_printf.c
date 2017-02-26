@@ -22,7 +22,7 @@ int	ft_switch(t_fmt *fmt, int *len_writen)
 		*len_writen += write_decimal(fmt);
 	else if (ft_strchr("oxOX", fmt->specifier))
 		*len_writen += write_num_in_ox(fmt);
-	else if (ft_strchr("csCS%", fmt->specifier))
+	else if (ft_strchr("csCS%", fmt->specifier) || fmt->specifier != '=')
 		*len_writen += write_str(fmt);
 //    else if (ft_strchr("cC", fmt->specifier))
 //        return ;
@@ -65,80 +65,10 @@ unsigned    get_width(char *format, t_fmt fmt)
     return (num);
 }
 
-//old version
-//
-//unsigned     get_width(char *format)
-//{
-//    int len;
-//    char *num;
-//    int number;
-//
-//    num = NULL;
-//    len = (int)ft_strlen(format);
-//    while (--len >= 0)
-//        if (ft_isdigit(format[len]))
-//        {
-//            while (--len >= 0 && ft_isdigit(format[len]))
-//				;
-//			len = len < 0 ? 0 : len;
-//			if (format[len] != '.')
-//			{
-//				num = format + len + (format[len] == '#' ? 1 : 0);
-//				break ;
-//			}
-//        }
-//	number = num != NULL ? ft_atoi(num) : 0;
-//    return (number < 0 ? -((unsigned)number) : (unsigned)number);
-//}
-
-int		end_format(char	*format, t_fmt *fmt)
+int end_format(char	*format, t_fmt *fmt, size_t index)
 {
-	unsigned int i;
-	unsigned int j;
-	unsigned int k;
-    size_t len = ft_strlen(CONVERSION);        // maybe change somethings for default
-	unsigned char end_letter[] = "bkmtwyBKMTWY{|}~[]()@?>=</&!";
-//    size_t len_end_letter = strlen(end_letter);
-	// char skip[] = "qv_,:;";
-	// n - bus error (flag in pdfs-bonus)
-	// q - deprecated (you dont use this flag pds not inf about create functionals)
-	// original function skip for this (flag q)
-	// v - repeat in 16 overload (read man )
-	//	a b c d e f g h i j k l m n o p q r s t u v w x y z
-	i = -1;
-	while (format[++i])
-	{
-		k = -1;
-        j = -1;
-		while (end_letter[++j])
-        {
-            if (++k == len)
-            {
-                j -= 1;
-                k = -1;
-                continue ;
-            }
-            if (CONVERSION[k] == format[i])
-            {
-                fmt->specifier = (unsigned char) CONVERSION[k];
-                return (i + 1);
-            }
-            if (end_letter[j] == format[i])
-            {
-                //fmt->specifier = end_letter[j];
-                return (i);
-            }
-        }
-//		while(end_letter[j] && end_letter[j] != format[i])
-//			j++;
-//		if (j < strlen(end_letter))
-//			return ((int)i);
-//		while(CONVERSION[k] && CONVERSION[k] != format[i])
-//			k++;
-//		if (k < strlen(CONVERSION))
-//			return (int(i));
-	}
-	return (0);
+	fmt->specifier = format[index] ? (unsigned char)format[index] : '=';
+	return ((int)index + 1);
 }
 
 int		check_flag_zero(char *format)
@@ -172,24 +102,42 @@ void	find_flags(char *format, t_fmt *data)
         data->flag_second = '#';
 }
 
-// version 1.2
+
+unsigned int	ft_count_letter(char const *s, char c)
+{
+	int				i;
+	unsigned int	count;
+
+	i = -1;
+	count = 0;
+	while (s && s[++i])
+		if (s[i] == c)
+			count++;
+	return (count);
+}
+
+// version 2
 char		find_conversion(char *format)
 {
-    static char *conversion[] = {"z", "j", "ll", "l", "hh", "h"};
-    int i;
-//	char *p;
+	static char conversion[] = {'z', 'j', 'l', 'h'};
+	int i;
+	char *p;
+	unsigned count;
 
-    i = -1;
-    while (++i < 6)
-        if (ft_strstr(format, conversion[i]))
-        {
-			//p = conversion[i];
-            if (i == 2 || i == 4)
-                return ((unsigned char)(conversion[i][0] << 1));
-            else
-                return (conversion[i][0]);
-        }
-    return (0);
+	i = -1;
+	while (++i < 4)
+		if ((p = ft_strchr(format, conversion[i])))
+		{
+			if (i > 1)
+				if ((count = ft_count_letter(p, conversion[i])))
+					if (count % 2 == 0)
+						return ((unsigned char)(conversion[i] << 1));
+					if (count % 2)
+						return (conversion[i]);
+			else
+				return (conversion[i]);
+		}
+	return (0);
 }
 
 int get_pression(char *format, t_fmt *fmt)
@@ -221,8 +169,6 @@ t_fmt *ft_clear(t_fmt *data)
 	data->modifier = 0;
 	data->specifier = '=';
 	data->precision_flag = 0;
-	//data->res = 0;
-//	data->len = 0;
 	data->str = NULL;
 	return (data);
 }
@@ -241,10 +187,10 @@ int     ft_printf(const char *format, ...)
         if (*format == '%' && format++)
         {
             i = 0;
-            while (i < ft_strlen(format) && !ft_strchr(CONVERSION, format[i]))
+            while (i < ft_strlen(format) && ft_strchr("-+0# hljz123456789.", format[i]))
 				i++;
 			ft_clear(&fmt);
-			end = end_format((char *)format, &fmt);
+			end = end_format((char *)format, &fmt, i);
 			combination(ft_strncpy(ft_strnew(end), format, end), &fmt);
 			compile_specifier_and_modifier(&ap, &fmt);
 			ft_switch(&fmt, &read);
@@ -271,7 +217,8 @@ size_t combination(char *str, t_fmt *fmt)
 	fmt->precision = get_pression(str, fmt);
     fmt->width = get_width(del, *fmt);
     fmt->modifier = (unsigned char)find_conversion(del);
-	ft_strchr("cC%", fmt->specifier) ? fmt->str = ft_strnew(1) : 0;
+	!ft_strchr("pdiuoxsDUOXS", fmt->specifier) ? fmt->str = ft_strnew(1) : 0;
+//	ft_strchr("cC%", fmt->specifier) ? fmt->str = ft_strnew(1) : 0;
     free(del);
 	return (index);
 //    return (fmt->specifier != 127 ? compile_specifier_and_modifier(p, *fmt) : 0);

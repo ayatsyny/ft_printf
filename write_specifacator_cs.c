@@ -16,8 +16,7 @@ static void calc_width_in_cs(t_fmt *fmt)
 	sing = fmt->flag_first == '0' ^ fmt->precision > 0 ? fmt->flag_first : ' ';
 	sing = sing == '0' ? sing : ' ';
 	cnt = ft_strchr("+ #", fmt->flag_second) || fmt->str[0] == '-' ? 1 : 0;
-	if ((elem = fmt->width - (int)ft_strlen(fmt->str) -
-				(fmt->specifier == 'p' ? 2 : 0)) > 0)
+	if ((elem = fmt->width - (int)ft_strlen(fmt->str)) > 0)
 	{
 		del[0] = ft_memset(ft_strnew(elem), sing, elem);
 		del[1] = fmt->str;
@@ -42,27 +41,23 @@ void 	calc_pression_str(t_fmt *fmt)
 		fmt->str = ft_strsub(fmt->str, 0, (size_t)fmt->precision);
 }
 
-void cal_letter(t_fmt *fmt)
-{
-	(fmt->specifier == 'c' || fmt->specifier == 'C') && fmt->width && !fmt->str[0] ?
-	fmt->width-- : 0;
-	fmt->precision < 0 ? fmt->precision = 0 : calc_pression_str(fmt);
-	if (fmt->width > 0)
-		calc_width_in_cs(fmt);
-}
-
 int	write_str(t_fmt *fmt)
 {
 	char *del;
 	int count;
+	char null;
 
 	del = NULL;
-	(!fmt->str && ((fmt->specifier == 'c' || fmt->specifier == 'C') || (fmt->specifier == 's' &&
+	null = ft_strchr("cC", fmt->specifier) && fmt->str[0] ? '1' : 0;
+	ft_strchr("cC", fmt->specifier) && fmt->width && !fmt->str[0] ?
+	fmt->width-- : 0;
+	fmt->precision < 0 ? fmt->precision = 0 : calc_pression_str(fmt);
+	if (fmt->width > 0)
+		calc_width_in_cs(fmt);
+	(!fmt->str && (ft_strchr("cC", fmt->specifier) || (fmt->specifier == 's' &&
 			(fmt->str = ft_strdup("(null)"))))) ? del = fmt->str : 0;
 	ft_putstr(fmt->str);
-	count = (fmt->specifier == 'c' || fmt->specifier == 'C') &&
-					(!fmt->str[0] ^ ft_strequ(fmt->str, " "))
-			? write(1, "\0", 1) : 0;
+	count = ft_strchr("cC", fmt->specifier) && !null ? write(1, "\0", 1) : 0;
 	free(del);
 	return ((int)ft_strlen(fmt->str) + count);
 }

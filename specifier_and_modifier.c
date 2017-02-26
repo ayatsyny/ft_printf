@@ -15,14 +15,10 @@ static intmax_t		convert_di(va_list *ap, t_fmt fmt)
 		return ((long long)num);
 	else if (fmt.modifier == 'l' || fmt.specifier == 'D')
 		return ((long)num);
-//	else if (fmt.modifier == 'h')
-//		return ((short)(va_arg(*ap, int)));
 	else if (fmt.modifier == 'h')
 		return ((short)num);
 	else if (fmt.modifier == 'h' << 1)
 		return ((signed char)num);
-//	else if (fmt.modifier == 'j')
-//		num = (size_t)num;
 	else if (!fmt.modifier)
 		return ((int)num);
 	return (num);
@@ -38,14 +34,10 @@ static uintmax_t convert_ox(va_list *ap, t_fmt fmt)
 		return ((unsigned long long)num);
 	else if (fmt.modifier == 'l' || ft_strchr("OU", fmt.specifier))
 		return ((unsigned long)num);
-//	else if (fmt.modifier == 'h')
-//		return ((unsigned short int)(va_arg(*ap, unsigned)));
 	else if (fmt.modifier == 'h')
 		return ((unsigned short)num);
 	else if (fmt.modifier == 'h' << 1)
 		return ((unsigned char)num);
-//	else if (fmt.modifier == 'j')
-//		num = (uintmax_t)num;
 	else if (!fmt.modifier)
 		return ((unsigned)num);
 	return (num);
@@ -66,9 +58,12 @@ void    compile_specifier_and_modifier(va_list *ap, t_fmt *fmt)
 		fmt->specifier == 's' ? fmt->str = va_arg(*ap, char*) : 0;
 //		fmt->specifier == 'S' ? fmt->str = va_arg(*ap, wchar_t*) : 0;
 		fmt->specifier == '%' ? fmt->str[0] = '%' : 0;
-		cal_letter(fmt);
 	}
 	else if (fmt->specifier == 'S')
 		fmt->str = covert_to_char(va_arg(*ap, wchar_t*));
-//	fmt->len = ft_atoi(fmt->str);
+	else if (fmt->specifier != '=')
+	{
+		fmt->str[0] = fmt->specifier;
+		fmt->specifier = 'c';
+	}
 }

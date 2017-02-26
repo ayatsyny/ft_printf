@@ -91,7 +91,7 @@ int main(void)
 //	TITLE("Number options(field width, presicion and -):\n");
 	{
 //		int nmb = 25;
-		#define CNV "i"
+//		#define CNV "i"
 //		printf("\n   |"CNV"|:\n");
 //		PRINTF("|%1.1"CNV"|\t\t|%5.1"CNV"|\t\t|%5.3"CNV"|\t\t|%1.5"CNV"|\t",nmb, nmb, nmb, nmb);
 //		PRINTF("|%1.1"CNV"|\t\t|%5.1"CNV"|\t\t|%5.3"CNV"|\t\t|%1.5"CNV"|",-nmb, -nmb, -nmb, -nmb);
@@ -109,11 +109,36 @@ int main(void)
 //		printf("\n");
 //		printf("\nint ft_printf [%d] \n", ft_printf("@moulitest: %#.o %#.0o", 0, 0));
 
-	PRINTF("|%5h h"CNV"|", SHRT_MIN);
+//	PRINTF("|%5h h"CNV"|", SHRT_MIN);
 
-//	printf("\nint printf [%d] \n", printf("%#o", 0));
+//	printf("\nint printf [%d] \n", printf("% h"));
 //	printf("\n");
-//	printf("\nint ft_printf [%d] \n", ft_printf("%#o", 0));
+//	printf("\nint ft_printf [%d] \n", ft_printf("% h"));
+
+	printf("%5hhi\n", SHRT_MIN);
+	ft_printf("%5hhi\n", SHRT_MIN);
+
+	printf("%5h.10hi\n", SHRT_MIN);
+	ft_printf("%5h.10hi\n", SHRT_MIN);
+
+//		char str1 [11] = "0123345336789";
+//		// Набор символов, которые должны входить в искомый сегмент
+//		char str2 [10] = "34";
+//		// Переменная, в которую будет занесен адрес первой найденной строки
+//		char *istr;
+//
+//		//Поиск строки
+//		istr = strstr(str1,str2);
+//
+//		//Вывод результата поиска на консоль
+//		if ( istr == NULL)
+//			printf ("Строка не найдена\n");
+//		else
+//		printf ("Искомая строка начинается с символа %d [%s]\n", istr-str1+1, istr);
+
+//	printf("\nint printf [%d] \n", printf("%5c", 42));
+//	printf("\n");
+//	printf("\nint ft_printf [%d] \n", ft_printf("%5c", 42));
 	}
 //	}
 //		printf("%p\n", -023);
