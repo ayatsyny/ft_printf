@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayatsyny <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/18 15:32:45 by ayatsyny          #+#    #+#             */
-/*   Updated: 2017/02/27 00:59:43 by ayatsyny         ###   ########.fr       */
+/*   Created: 2017/02/27 20:05:54 by ayatsyny          #+#    #+#             */
+/*   Updated: 2017/02/27 20:06:01 by ayatsyny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTPRINTF_H
-# define LIBFTPRINTF_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 # define GET(x) (x < 0 ? 1 : 0)
 # define ITOA(x) x < 0 ? -x : x
+# define RED     "\x1b[31m"
+# define GREEN   "\x1b[32m"
+# define YELLOW  "\x1b[33m"
+# define BLUE    "\x1b[34m"
+# define MAGENTA "\x1b[35m"
+# define CYAN    "\x1b[36m"
+# define RESET   "\x1b[0m"
 # include <stdarg.h>
 # include <ctype.h>
 # include <stdint.h>

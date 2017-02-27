@@ -6,7 +6,7 @@
 #    By: ayatsyny <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/15 20:51:56 by ayatsyny          #+#    #+#              #
-#    Updated: 2017/02/05 16:44:54 by ayatsyny         ###   ########.fr        #
+#    Updated: 2017/02/27 19:40:27 by ayatsyny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,9 +63,3 @@ re: all
 norm:
 		make norm -C ./libft
 		norminette $(SRC) $(HDR) | grep -B 1 "Error"
-
-rmsh:
-		make rmsh -C ./libft
-		rm *~
-		rm \#*
-		rm *.out

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 void	clear_flag_in_center_str(t_fmt *fmt, size_t str_len)
 {

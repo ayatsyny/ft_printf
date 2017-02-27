@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static void		process_itoa(intmax_t value, int base, char *s, int *a)
 {

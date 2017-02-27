@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 static intmax_t		convert_di(va_list *ap, t_fmt fmt)
 {

@@ -76,12 +76,12 @@ SRC = ft_memset.c \
 		ft_strlowcase.c
 
 OBJ = $(SRC:.c=.o)
-LIB = libft.a
+NAME = libft.a
 
-all: $(LIB)
+all: $(NAME)
 
-$(LIB): $(OBJ)
-	ar -cru $(LIB) $(OBJ)
+$(NAME): $(OBJ)
+	ar -cru $(NAME) $(OBJ)
 	ranlib libft.a
 
 %.o: %.c libft.h
@@ -91,6 +91,6 @@ clean:
 	rm -f $(OBJ)
 
 fclean: clean
-	rm -f $(LIB)
+	rm -f $(NAME)
 
 re: fclean all
