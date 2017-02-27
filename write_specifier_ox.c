@@ -1,10 +1,18 @@
-//
-// Created by Andriy Yatsynyak on 2/5/17.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   write_specifier_ox.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ayatsyny <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/27 00:31:44 by ayatsyny          #+#    #+#             */
+/*   Updated: 2017/02/27 00:35:55 by ayatsyny         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libftprintf.h"
 
-static int costily_for_zero(t_fmt *fmt)
+static int		costily_for_zero(t_fmt *fmt)
 {
 	if (fmt->flag_second == '#' && ft_strchr("xX", fmt->specifier))
 	{
@@ -18,17 +26,7 @@ static int costily_for_zero(t_fmt *fmt)
 	return (0);
 }
 
-int	write_num_in_ox(t_fmt *fmt)
-{
-	fmt->precision > -1 ? calc_pression_in_ox(fmt, costily_for_zero(fmt)) : 0;
-	fmt->flag_first != '=' || fmt->flag_second != '=' ? calc_flags_int_ox(fmt) : 0;
-	fmt->width ? calc_width_in_ox(fmt) : 0;
-    fmt->specifier == 'x' ? ft_strlowcase(fmt->str) : 0;
-	ft_putstr(fmt->str);
-	return ((int)ft_strlen(fmt->str));
-}
-
-void    calc_flags_int_ox(t_fmt *fmt)
+static void		calc_flags_int_ox(t_fmt *fmt)
 {
 	char flag_buff[3];
 	char *del;
@@ -45,12 +43,12 @@ void    calc_flags_int_ox(t_fmt *fmt)
 	free(del);
 }
 
-void calc_width_in_ox(t_fmt *fmt)
+static void		calc_width_in_ox(t_fmt *fmt)
 {
-	int elem;
-	char sing;
-	char *del[2];
-	size_t cnt;
+	int		elem;
+	char	sing;
+	char	*del[2];
+	size_t	cnt;
 
 	del[0] = NULL;
 	del[1] = NULL;
@@ -70,19 +68,19 @@ void calc_width_in_ox(t_fmt *fmt)
 				clear_flag_in_center_str(fmt, ft_strlen(del[0]));
 		}
 	}
-	ft_memdel((void **) &del);
+	ft_memdel((void **)&del);
 }
 
-
-void	calc_pression_in_ox(t_fmt *fmt, int add_len)
+static void		calc_pression_in_ox(t_fmt *fmt, int add_len)
 {
-	int elem;
-	char *del[2];
+	int		elem;
+	char	*del[2];
 
 	del[0] = NULL;
 	del[1] = NULL;
-	elem = (int)(fmt->precision + min_zero(fmt->precision) - (ft_strlen(fmt->str) + add_len));
-    if (ft_strequ(fmt->str, "0") && !fmt->precision)
+	elem = (int)(fmt->precision + ZERO(fmt->precision) -
+			(ft_strlen(fmt->str) + add_len));
+	if (ft_strequ(fmt->str, "0") && !fmt->precision)
 		ft_strclr(fmt->str);
 	else if (elem > 0 && fmt->precision_flag)
 	{
@@ -98,5 +96,16 @@ void	calc_pression_in_ox(t_fmt *fmt, int add_len)
 	}
 	if (del[0] && ft_strchr(fmt->str, '-'))
 		clear_flag_in_center_str(fmt, ft_strlen(del[0]));
-	ft_memdel((void **) &del);
+	ft_memdel((void **)&del);
+}
+
+int				write_num_in_ox(t_fmt *fmt)
+{
+	fmt->precision > -1 ? calc_pression_in_ox(fmt, costily_for_zero(fmt)) : 0;
+	fmt->flag_first != '=' || fmt->flag_second != '=' ?
+	calc_flags_int_ox(fmt) : 0;
+	fmt->width ? calc_width_in_ox(fmt) : 0;
+	fmt->specifier == 'x' ? ft_strlowcase(fmt->str) : 0;
+	ft_putstr(fmt->str);
+	return ((int)ft_strlen(fmt->str));
 }

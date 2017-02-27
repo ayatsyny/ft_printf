@@ -1,15 +1,23 @@
-//
-// Created by Andriy Yatsynyak on 2/5/17.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   write_specifier_cs.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ayatsyny <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/27 00:31:18 by ayatsyny          #+#    #+#             */
+/*   Updated: 2017/02/27 00:31:26 by ayatsyny         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libftprintf.h"
 
-static void calc_width_in_cs(t_fmt *fmt)
+static void	calc_width_in_cs(t_fmt *fmt)
 {
-	int elem;
-	char sing;
-	char *del[2];
-	size_t cnt;
+	int		elem;
+	char	sing;
+	char	*del[2];
+	size_t	cnt;
 
 	del[0] = NULL;
 	del[1] = NULL;
@@ -29,11 +37,10 @@ static void calc_width_in_cs(t_fmt *fmt)
 				clear_flag_in_center_str(fmt, ft_strlen(del[0]));
 		}
 	}
-	ft_memdel((void **) &del);
+	ft_memdel((void **)&del);
 }
 
-
-void 	calc_pression_str(t_fmt *fmt)
+static void	calc_pression_str(t_fmt *fmt)
 {
 	if (!fmt->precision && ft_strchr("sS", fmt->specifier))
 		fmt->str = "\0";
@@ -41,11 +48,11 @@ void 	calc_pression_str(t_fmt *fmt)
 		fmt->str = ft_strsub(fmt->str, 0, (size_t)fmt->precision);
 }
 
-int	write_str(t_fmt *fmt)
+int			write_str(t_fmt *fmt)
 {
-	char *del;
-	int count;
-	char null;
+	char	*del;
+	int		count;
+	char	null;
 
 	del = NULL;
 	null = ft_strchr("cC", fmt->specifier) && fmt->str[0] ? '1' : 0;

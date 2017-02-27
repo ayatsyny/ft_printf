@@ -5,19 +5,19 @@ set(CCMAKE_C_FLAGS "-std=c99 -Wall -Wextra -Werror")
 #set(CMAKE_C_FLAGS "-std=c99")
 
 set(SOURCE_FILES
-        #test_va.c
-        ft_printf.c
         test.c
-        write_console.c
+        ft_printf.c
+        init_struct.c
+        parser.c
+        convert_to_data.c
         itoa_base.c
-        specifier_and_modifier.c
+        write_specifier_cs.c
+        write_specifier_ox.c
+        write_specifier_pidu.c
+        count_letters.c
         convert_to_char.c
-        write_specifacator_ox.c
-        write_specifacator_cs.c
-#        printf_main.c
-#        clear_char_mas.c.c
-        #libft/libft.a
+        fix_center_flag.c
+        check_flag_zero.c
         libftprintf.h)
-        ##libft/libft.h)
 add_executable(ft_printf ${SOURCE_FILES})
 target_link_libraries(ft_printf ${CMAKE_SOURCE_DIR}/libft/libft.a)

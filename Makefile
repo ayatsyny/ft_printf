@@ -17,12 +17,17 @@ G = gcc
 FLAG = -Wall -Wextra -Werror
 
 SRC = ft_printf.c \
-      specifier_and_modifier.c \
-      write_console.c \
-      itoa_base.c \
-      convert_to_char.c \
-      write_specifacator_ox.c \
-      write_specifacator_cs.c
+    init_struct.c \
+    parser.c \
+    convert_to_data.c \
+    itoa_base.c \
+    write_specifier_cs.c \
+    write_specifier_ox.c \
+    write_specifier_pidu.c \
+    count_letters.c \
+    convert_to_char.c \
+    fix_center_flag.c \
+    check_flag_zero.c
 
 HDR = ft_printf.h
 

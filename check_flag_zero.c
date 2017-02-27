@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_to_char.c                                  :+:      :+:    :+:   */
+/*   check_flag_zero.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayatsyny <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/27 00:40:57 by ayatsyny          #+#    #+#             */
-/*   Updated: 2017/02/27 00:41:53 by ayatsyny         ###   ########.fr       */
+/*   Created: 2017/02/27 00:42:45 by ayatsyny          #+#    #+#             */
+/*   Updated: 2017/02/27 00:43:10 by ayatsyny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-char	*covert_to_char(wchar_t *str)
+int	check_flag_zero(char *format)
 {
-	char	*new_str;
-	int		len;
-	int		i;
-	int		j;
+	int i;
 
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	if (!(new_str = (char *)malloc((size_t)(i + 1))))
-		return (NULL);
-	len = i + 1;
 	i = -1;
-	j = -1;
-	while (++i < len)
-		new_str[++j] = (char)str[i];
-	return (new_str);
+	while (format[++i])
+	{
+		if (format[i] == '0')
+			return (1);
+		while (ft_strchr(".123456789", format[i]))
+			i++;
+	}
+	return (0);
 }

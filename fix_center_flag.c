@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_to_char.c                                  :+:      :+:    :+:   */
+/*   fix_center_flag.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayatsyny <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/27 00:40:57 by ayatsyny          #+#    #+#             */
-/*   Updated: 2017/02/27 00:41:53 by ayatsyny         ###   ########.fr       */
+/*   Created: 2017/02/27 00:42:11 by ayatsyny          #+#    #+#             */
+/*   Updated: 2017/02/27 00:42:24 by ayatsyny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-char	*covert_to_char(wchar_t *str)
+void	clear_flag_in_center_str(t_fmt *fmt, size_t str_len)
 {
-	char	*new_str;
-	int		len;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	if (!(new_str = (char *)malloc((size_t)(i + 1))))
-		return (NULL);
-	len = i + 1;
-	i = -1;
-	j = -1;
-	while (++i < len)
-		new_str[++j] = (char)str[i];
-	return (new_str);
+	if (ft_strchr("xX", fmt->specifier))
+	{
+		fmt->str[str_len + 1] = '0';
+		fmt->str[1] = fmt->specifier;
+	}
+	else
+	{
+		fmt->str[0] = fmt->str[0] + fmt->str[str_len];
+		fmt->str[str_len] = fmt->str[0] - fmt->str[str_len];
+		fmt->str[0] = fmt->str[0] - fmt->str[str_len];
+	}
 }
