@@ -23,7 +23,7 @@ int	ft_switch(t_fmt *fmt, int *len_writen)
 		*len_writen += write_num_in_ox(fmt);
 	else if (ft_strchr("csCS%", fmt->specifier) || fmt->specifier != '=')
 		*len_writen += write_str(fmt);
-	if (ft_strchr("diuUDoxOXp%cCS", fmt->specifier))
+	if (ft_strchr("diuUDoxOXp%cCS", fmt->specifier) && fmt->str)
 		del = fmt->str;
 	free(del);
 	return (*len_writen);

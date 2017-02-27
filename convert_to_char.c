@@ -20,6 +20,8 @@ char	*covert_to_char(wchar_t *str)
 	int		j;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	while (str[i] != '\0')
 		i++;
 	if (!(new_str = (char *)malloc((size_t)(i + 1))))

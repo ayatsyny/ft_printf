@@ -50,21 +50,18 @@ static void	calc_pression_str(t_fmt *fmt)
 
 int			write_str(t_fmt *fmt)
 {
-	char	*del;
 	int		count;
 	char	null;
 
-	del = NULL;
 	null = ft_strchr("cC", fmt->specifier) && fmt->str[0] ? '1' : 0;
 	ft_strchr("cC", fmt->specifier) && fmt->width && !fmt->str[0] ?
 	fmt->width-- : 0;
 	fmt->precision < 0 ? fmt->precision = 0 : calc_pression_str(fmt);
 	if (fmt->width > 0)
 		calc_width_in_cs(fmt);
-	(!fmt->str && (ft_strchr("cC", fmt->specifier) || (fmt->specifier == 's' &&
-			(fmt->str = ft_strdup("(null)"))))) ? del = fmt->str : 0;
+	if (!fmt->str ? write(1, "(null)", 6) : 0)
+		return (6);
 	ft_putstr(fmt->str);
 	count = ft_strchr("cC", fmt->specifier) && !null ? write(1, "\0", 1) : 0;
-	free(del);
 	return ((int)ft_strlen(fmt->str) + count);
 }
