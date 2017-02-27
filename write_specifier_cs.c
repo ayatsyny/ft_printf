@@ -17,13 +17,11 @@ static void	calc_width_in_cs(t_fmt *fmt)
 	int		elem;
 	char	sing;
 	char	*del[2];
-	size_t	cnt;
 
 	del[0] = NULL;
 	del[1] = NULL;
 	sing = fmt->flag_first == '0' ^ fmt->precision > 0 ? fmt->flag_first : ' ';
 	sing = sing == '0' ? sing : ' ';
-	cnt = ft_strchr("+ #", fmt->flag_second) || fmt->str[0] == '-' ? 1 : 0;
 	if ((elem = fmt->width - (int)ft_strlen(fmt->str)) > 0)
 	{
 		del[0] = ft_memset(ft_strnew(elem), sing, elem);
@@ -31,11 +29,7 @@ static void	calc_width_in_cs(t_fmt *fmt)
 		if (fmt->flag_first == '-')
 			fmt->str = ft_strjoin(fmt->str, del[0]);
 		else
-		{
 			fmt->str = ft_strjoin(del[0], fmt->str);
-			if (cnt && fmt->flag_first == '0' && fmt->str[0] != ' ')
-				clear_flag_in_center_str(fmt, ft_strlen(del[0]));
-		}
 	}
 	ft_memdel((void **)&del);
 }

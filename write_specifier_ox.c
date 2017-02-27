@@ -78,7 +78,7 @@ static void		calc_pression_in_ox(t_fmt *fmt, int add_len)
 
 	del[0] = NULL;
 	del[1] = NULL;
-	elem = (int)(fmt->precision + ZERO(fmt->precision) -
+	elem = (int)(fmt->precision + GET(fmt->precision) -
 			(ft_strlen(fmt->str) + add_len));
 	if (ft_strequ(fmt->str, "0") && !fmt->precision)
 		ft_strclr(fmt->str);

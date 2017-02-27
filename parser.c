@@ -12,14 +12,12 @@
 
 #include "libftprintf.h"
 
-unsigned		get_width(char *format, t_fmt fmt)
+unsigned		get_width(char *format, unsigned num)
 {
 	int			i;
 	int			j;
-	unsigned	num;
 
 	i = -1;
-	num = 0;
 	while (format[++i])
 	{
 		if (!(format[i] >= '1' && format[i] <= '9'))
@@ -69,12 +67,13 @@ unsigned char	get_modifier(char *format)
 	while (++i < 4)
 		if ((p = ft_strchr(format, conversion[i])))
 		{
-			if (i > 1)
-				if ((count = count_letters(p, conversion[i])))
-					if (count % 2 == 0)
-						return (conversion[i] << 1);
-			if (count % 2)
-				return (conversion[i]);
+			if (i > 1 && (count = count_letters(p, conversion[i])))
+			{
+				if (count % 2 == 0)
+					return (conversion[i] << 1);
+				if (count % 2)
+					return (conversion[i]);
+			}
 			else
 				return (conversion[i]);
 		}
@@ -84,7 +83,6 @@ unsigned char	get_modifier(char *format)
 int				get_pression(char *format, t_fmt *fmt)
 {
 	char	*tmp;
-	int		num;
 	int		i;
 
 	i = 0;
@@ -96,21 +94,22 @@ int				get_pression(char *format, t_fmt *fmt)
 	}
 	else
 		return (-1);
-	num = ft_atoi(tmp + i);
-	return (num);
+	return (ft_atoi(tmp + i));
 }
 
 void			combination(const char *str, t_fmt *fmt, size_t index)
 {
-	char *copy_str;
+	unsigned	num;
+	char		*copy_str;
 
+	num = 0;
 	init_s_fmt(fmt);
 	fmt->specifier = str[index] ? (unsigned char)str[index] : '=';
 	index++;
 	copy_str = ft_strsub(str, 0, index);
 	find_flags(copy_str, fmt);
 	fmt->precision = get_pression(copy_str, fmt);
-	fmt->width = get_width(copy_str, *fmt);
+	fmt->width = get_width(copy_str, num);
 	fmt->modifier = get_modifier(copy_str);
 	!ft_strchr("pdiuoxsDUOXS", fmt->specifier) ? fmt->str = ft_strnew(1) : 0;
 	free(copy_str);

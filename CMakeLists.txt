@@ -5,7 +5,7 @@ set(CCMAKE_C_FLAGS "-std=c99 -Wall -Wextra -Werror")
 #set(CMAKE_C_FLAGS "-std=c99")
 
 set(SOURCE_FILES
-        test.c
+        test.cc
         ft_printf.c
         init_struct.c
         parser.c

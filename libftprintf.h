@@ -12,7 +12,7 @@
 
 #ifndef LIBFTPRINTF_H
 # define LIBFTPRINTF_H
-# define ZERO(x) (x < 0 ? 1 : 0)
+# define GET(x) (x < 0 ? 1 : 0)
 # define ITOA(x) x < 0 ? -x : x
 # include <stdarg.h>
 # include <ctype.h>
@@ -32,7 +32,7 @@ typedef struct	s_fmt
 }				t_fmt;
 
 /*
-**  initilisation struct
+**  initialization struct
 */
 
 t_fmt			*init_s_fmt(t_fmt *data);
@@ -41,7 +41,7 @@ t_fmt			*init_s_fmt(t_fmt *data);
 **  ft_printf
 */
 
-int				ft_printf(const char *s, ...);
+int				ft_printf(const char *format, ...);
 
 /*
 **  parser
@@ -51,7 +51,7 @@ void			combination(const char *str, t_fmt *fmt, size_t index);
 unsigned char	get_modifier(char *format);
 void			find_flags(char *format, t_fmt *data);
 int				get_pression(char *format, t_fmt *fmt);
-unsigned		get_width(char *format, t_fmt fmt);
+unsigned		get_width(char *format, unsigned num);
 void			compile_specifier_and_modifier(va_list *ap, t_fmt *fmt);
 
 /*

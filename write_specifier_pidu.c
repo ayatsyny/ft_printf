@@ -71,14 +71,14 @@ static void		calc_width(t_fmt *fmt)
 
 static void		calc_pression(t_fmt *fmt)
 {
-	int		s;
 	int		elem;
+	int		s;
 	char	*del[2];
 
 	del[0] = NULL;
 	del[1] = NULL;
 	s = fmt->str[0] == '-' && !ft_strchr("scSC", fmt->specifier) ? 1 : 0;
-	elem = fmt->precision + ZERO(fmt->precision) + s - ft_strlen(fmt->str);
+	elem = fmt->precision + GET(fmt->precision) + s - ft_strlen(fmt->str);
 	if (ft_strequ(fmt->str, "0") && !fmt->precision)
 		ft_strclr(fmt->str);
 	else if (elem > 0 && fmt->precision_flag)
