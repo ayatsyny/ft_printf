@@ -41,6 +41,8 @@ static int		get_base(char letter)
 		num = 16;
 	else if (ft_strchr("oO", letter))
 		num = 8;
+	else if (letter == 'b')
+		num = 2;
 	return (num);
 }
 
@@ -54,7 +56,7 @@ char			*ft_itoa_base(intmax_t value, char base_specifier)
 	if (!(mas = ft_strnew(35)))
 		return (NULL);
 	base = get_base(base_specifier);
-	if (value < 0 && base == 10)
+	if (value < 0 && (base == 10 || base == 2))
 		mas[i++] = '-';
 	if (value < -9223372036854775807)
 		process_itoa2((uintmax_t)value, (uintmax_t)base, mas, &i);

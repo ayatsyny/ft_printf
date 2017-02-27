@@ -19,7 +19,7 @@ int	ft_switch(t_fmt *fmt, int *len_writen)
 	del = NULL;
 	if (ft_strchr("pdiuUD", fmt->specifier))
 		*len_writen += write_decimal(fmt);
-	else if (ft_strchr("oxOX", fmt->specifier))
+	else if (ft_strchr("boxOX", fmt->specifier))
 		*len_writen += write_num_in_ox(fmt);
 	else if (ft_strchr("csCS%", fmt->specifier) || fmt->specifier != '=')
 		*len_writen += write_str(fmt);

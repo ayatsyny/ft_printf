@@ -111,6 +111,6 @@ void			combination(const char *str, t_fmt *fmt, size_t index)
 	fmt->precision = get_pression(copy_str, fmt);
 	fmt->width = get_width(copy_str, num);
 	fmt->modifier = get_modifier(copy_str);
-	!ft_strchr("pdiuoxsDUOXS", fmt->specifier) ? fmt->str = ft_strnew(1) : 0;
+	!ft_strchr("bpdiuoxsDUOXS", fmt->specifier) ? fmt->str = ft_strnew(1) : 0;
 	free(copy_str);
 }

@@ -54,7 +54,7 @@ static uintmax_t	convert_ox(va_list *ap, t_fmt fmt)
 
 void				compile_specifier_and_modifier(va_list *ap, t_fmt *fmt)
 {
-	if (ft_strchr("diD", fmt->specifier))
+	if (ft_strchr("bdiD", fmt->specifier))
 		fmt->str = ft_itoa_base(convert_di(ap, *fmt), fmt->specifier);
 	else if (ft_strchr("uoxXUO", fmt->specifier))
 		fmt->str = ft_itoa_base2(convert_ox(ap, *fmt), fmt->specifier);
