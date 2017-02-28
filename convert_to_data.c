@@ -60,6 +60,9 @@ void				compile_specifier_and_modifier(va_list *ap, t_fmt *fmt)
 		fmt->str = ft_itoa_base2(convert_ox(ap, *fmt), fmt->specifier);
 	else if (fmt->specifier == 'p')
 		fmt->str = ft_itoa_base2(va_arg(*ap, uintmax_t), fmt->specifier);
+	else if (fmt->specifier == 'S' ||
+			fmt->specifier == 's' && fmt->modifier == 'l')
+		fmt->str = covert_to_char(va_arg(*ap, wchar_t*));
 	else if (ft_strchr("scC%", fmt->specifier))
 	{
 		fmt->specifier == 'c' ? fmt->str[0] = (char)va_arg(*ap, int) : 0;
@@ -67,8 +70,6 @@ void				compile_specifier_and_modifier(va_list *ap, t_fmt *fmt)
 		fmt->specifier == 's' ? fmt->str = va_arg(*ap, char*) : 0;
 		fmt->specifier == '%' ? fmt->str[0] = '%' : 0;
 	}
-	else if (fmt->specifier == 'S')
-		fmt->str = covert_to_char(va_arg(*ap, wchar_t*));
 	else if (fmt->specifier != '=')
 	{
 		fmt->str[0] = fmt->specifier;
