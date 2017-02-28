@@ -27,7 +27,8 @@ SRC = ft_printf.c \
     count_letters.c \
     convert_to_char.c \
     fix_center_flag.c \
-    check_flag_zero.c
+    check_flag_zero.c \
+    init_memory.c
 
 HDR = ft_printf.h
 

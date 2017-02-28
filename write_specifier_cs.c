@@ -16,10 +16,9 @@ static void	calc_width_in_cs(t_fmt *fmt)
 {
 	int		elem;
 	char	sing;
-	char	*del[2];
+	char	*del[TWO];
 
-	del[0] = NULL;
-	del[1] = NULL;
+	init_point_str((char **)&del, TWO);
 	sing = fmt->flag_first == '0' ^ fmt->precision > 0 ? fmt->flag_first : ' ';
 	sing = sing == '0' ? sing : ' ';
 	if ((elem = fmt->width - (int)ft_strlen(fmt->str)) > 0)

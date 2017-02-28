@@ -47,11 +47,10 @@ static void		calc_width_in_ox(t_fmt *fmt)
 {
 	int		elem;
 	char	sing;
-	char	*del[2];
+	char	*del[TWO];
 	size_t	cnt;
 
-	del[0] = NULL;
-	del[1] = NULL;
+	init_point_str((char **)&del, TWO);
 	sing = fmt->flag_first == '0' ^ fmt->precision > 0 ? fmt->flag_first : ' ';
 	sing = sing == '0' ? sing : ' ';
 	cnt = ft_strchr("+ #", fmt->flag_second) || fmt->str[0] == '-' ? 1 : 0;
@@ -68,16 +67,16 @@ static void		calc_width_in_ox(t_fmt *fmt)
 				clear_flag_in_center_str(fmt, ft_strlen(del[0]));
 		}
 	}
-	ft_memdel((void **)&del);
+	free(del[0]);
+	free(del[1]);
 }
 
 static void		calc_pression_in_ox(t_fmt *fmt, int add_len)
 {
 	int		elem;
-	char	*del[2];
+	char	*del[TWO];
 
-	del[0] = NULL;
-	del[1] = NULL;
+	init_point_str((char **)&del, TWO);
 	elem = (int)(fmt->precision + GET(fmt->precision) -
 			(ft_strlen(fmt->str) + add_len));
 	if (ft_strequ(fmt->str, "0") && !fmt->precision)
@@ -96,7 +95,8 @@ static void		calc_pression_in_ox(t_fmt *fmt, int add_len)
 	}
 	if (del[0] && ft_strchr(fmt->str, '-'))
 		clear_flag_in_center_str(fmt, ft_strlen(del[0]));
-	ft_memdel((void **)&del);
+	free(del[0]);
+	free(del[1]);
 }
 
 int				write_num_in_ox(t_fmt *fmt)

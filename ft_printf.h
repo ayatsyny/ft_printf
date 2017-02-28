@@ -14,6 +14,7 @@
 # define FT_PRINTF_H
 # define GET(x) (x < 0 ? 1 : 0)
 # define ITOA(x) x < 0 ? -x : x
+# define TWO 2
 # define RED     "\x1b[31m"
 # define GREEN   "\x1b[32m"
 # define YELLOW  "\x1b[33m"
@@ -100,5 +101,6 @@ int				check_flag_zero(char *format);
 char			*covert_to_char(wchar_t *str);
 unsigned		count_letters(char const *s, char c);
 void			clear_flag_in_center_str(t_fmt *fmt, size_t str_len);
+void			init_point_str(char **str, int len);
 
 #endif

@@ -61,7 +61,7 @@ void				compile_specifier_and_modifier(va_list *ap, t_fmt *fmt)
 	else if (fmt->specifier == 'p')
 		fmt->str = ft_itoa_base2(va_arg(*ap, uintmax_t), fmt->specifier);
 	else if (fmt->specifier == 'S' ||
-			fmt->specifier == 's' && fmt->modifier == 'l')
+			(fmt->specifier == 's' && fmt->modifier == 'l'))
 		fmt->str = covert_to_char(va_arg(*ap, wchar_t*));
 	else if (ft_strchr("scC%", fmt->specifier))
 	{

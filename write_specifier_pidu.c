@@ -35,20 +35,22 @@ static void		calc_flags(t_fmt *fmt)
 		return ;
 	else if (fmt->str[0] != '-' && fmt->specifier != 'p')
 		flag_buff[0] = ft_strchr("+ ", fmt->flag_second) ? fmt->flag_second : 0;
-	del = fmt->str;
-	fmt->str = ft_strjoin(flag_buff, fmt->str);
-	free(del);
+	if (flag_buff[0] && fmt->str)
+	{
+		del = fmt->str;
+		fmt->str = ft_strjoin(flag_buff, fmt->str);
+		free(del);
+	}
 }
 
 static void		calc_width(t_fmt *fmt)
 {
 	int		elem;
 	char	sing;
-	char	*del[2];
+	char	*del[TWO];
 	size_t	cnt;
 
-	del[0] = NULL;
-	del[1] = NULL;
+	init_point_str((char **)&del, TWO);
 	sing = fmt->flag_first == '0' ? '0' : ' ';
 	sing = fmt->precision > -1 ? ' ' : sing;
 	cnt = ft_strchr("+ #", fmt->flag_second) || fmt->str[0] == '-' ? 1 : 0;
@@ -66,18 +68,18 @@ static void		calc_width(t_fmt *fmt)
 				clear_flag_in_center_str(fmt, ft_strlen(del[0]));
 		}
 	}
-	ft_memdel((void **)&del);
+	free(del[0]);
+	free(del[1]);
 }
 
 static void		calc_pression(t_fmt *fmt)
 {
 	int		elem;
 	int		s;
-	char	*del[2];
+	char	*del[TWO];
 
-	del[0] = NULL;
-	del[1] = NULL;
-	s = fmt->str[0] == '-' && !ft_strchr("scSC", fmt->specifier) ? 1 : 0;
+	init_point_str((char **)&del, TWO);
+	s = fmt->str[0] == '-' ? 1 : 0;
 	elem = fmt->precision + GET(fmt->precision) + s - ft_strlen(fmt->str);
 	if (ft_strequ(fmt->str, "0") && !fmt->precision)
 		ft_strclr(fmt->str);
@@ -95,7 +97,8 @@ static void		calc_pression(t_fmt *fmt)
 	}
 	if (del[0] && ft_strchr(fmt->str, '-'))
 		clear_flag_in_center_str(fmt, ft_strlen(del[0]));
-	ft_memdel((void **)&del);
+	free(del[0]);
+	free(del[1]);
 }
 
 int				write_decimal(t_fmt *fmt)
